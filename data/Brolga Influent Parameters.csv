@@ -1,0 +1,28 @@
+﻿Influent Water,Details,Min,Max,Estimated,Notes
+ALKALINITY AS CACO3,Alkalinity - Total Alkalinity as CaCO3,0,37.4,Yes,Approximate based on typical water treatment system capabilities
+AS,MS Total Metals - Arsenic,0,0.01,Yes,Approximate based on ADWG health guideline value
+CO3 AS CACO3,Alkalinity - Carbonate Alkalinity as CaCO3,0,3,Yes,Approximate based on typical carbonate alkalinity in natural waters
+COLIFORM (C),Colilert (2000) - Coliform,0,1320,Yes,Approximate - system has 7-log removal capability per PRS-WSA-TRT-009
+DOC,DOC (SFA) - Dissolved Organic Carbon,0,5.5,Yes,Approximate based on typical surface water values
+E COLI(C),Colilert (2000) - E.coli,0,110,Yes,Approximate - system has 7-log removal capability per PRS-WSA-TRT-009
+EC,EC - Electrical Conductivity @ 25C,0,900,Yes,From PRS-WSA-TRT-006
+FE,MS Total Metals - Iron,0,1000,Yes,From PRS-WSA-TRT-008
+HCO3 AS CACO3,Alkalinity - Bicarbonate Alkalinity as CaCO3,0,37.4,Yes,Approximate - based on typical water treatment system capabilities
+HG,MS Total Metals - Mercury,0,0.001,Yes,Approximate - based on typical water treatment system capabilities
+MN,MS Total Metals - Manganese,0,150,Yes,From PRS-WSA-TRT-007
+NA,OES Scan - Sodium,0,33,Yes,Approximate - based on typical water treatment system capabilities
+OH AS CACO3,Alkalinity - Hydroxide Alkalinity as CaCO3,0,3,Yes,Approximate - based on typical water treatment system capabilities
+PB,MS Total Metals - Lead,0,0.0022,Yes,Approximate - based on typical water treatment system capabilities
+PH,pH - pH,5.7,8.3,Yes,From PRS-WSA-TRT-005
+PLATE COUNT 36 C,Plate Count - Plate Count 36°C,0,374,Yes,Approximate - based on typical water treatment system capabilities
+SILICA,"React. Silica - Silica, reactive as SiO2,  reactive as SiO2""",0,1.65,Yes,Approximate - based on typical water treatment system capabilities
+SUS SOLIDS,SS at 104+/- 2°C - Suspended Solids,0,9,Yes,Approximate - based on typical water treatment system capabilities
+TDS_180,TDS at 180°C +/- 5°C - Total Dissolved Solids,0,143,Yes,Approximate - based on typical water treatment system capabilities
+TOC,TOC (SFA) - Total Organic Carbon,0,5.5,Yes,Approximate based on typical surface water values
+TRUE COLOUR,ColourFilt - Colour (filt),0,150,Yes,From PRS-WSA-TRT-001
+TURBIDITY,Turbidity - Turbidity,0,200,Yes,From PRS-WSA-TRT-002
+UV TRANS,"UV Trans254 - UV Transmission at 254 nm, 1 cm path",70,100,Yes,"Min from PRS-WSA-TRT-003, Max is approximate (theoretical max)"
+W-CHLORIDE(DA),Chloride - Chloride,0,60.5,Yes,Approximate - based on typical water treatment system capabilities
+W-HARDNESS,Hardness,0,41.8,Yes,Approximate - based on typical water treatment system capabilities
+W-NO3-N,NO3-N - Nitrate as N,0,0.638,Yes,Approximate - based on typical water treatment system capabilities
+W-SO4-DA,SO4 DA - Sulphate,0,40.7,Yes,Approximate - based on typical water treatment system capabilities

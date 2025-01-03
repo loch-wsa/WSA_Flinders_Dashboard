@@ -1,0 +1,28 @@
+﻿Influent Water,Details,Pond,Week 1,Week 2,Week 3,Week 4,Week 5,Week 6,Week 7,Week 8,Week 9
+ALKALINITY AS CACO3,Alkalinity - Total Alkalinity as CaCO3,66,34,32,31,30,27,25,26,22,23
+AS,MS Total Metals - Arsenic,<0.001,<0.001,<0.001,<0.001,<0.001,<0.001,<0.001,<0.001,<0.001,<0.001
+CO3 AS CACO3,Alkalinity - Carbonate Alkalinity as CaCO3,<2,<2,<2,<2,<2,<2,<2,<2,<2,<2
+COLIFORM (C),Colilert (2000) - Coliform,>2400,920,250,980,1000,1200,650,160,1000,45
+DOC,DOC (SFA) - Dissolved Organic Carbon,12,5,3.4,3.6,3.1,4,3.6,3.5,4.2,4.7
+E COLI(C),Colilert (2000) - E.coli,650,100,16,36,39,23,11,1,19,1
+EC,EC - Electrical Conductivity @ 25C,440,240,240,230,210,190,200,210,200,210
+FE,MS Total Metals - Iron,1.7,<0.01,<0.01,<0.01,<0.01,<0.01,<0.01,0.13,0.14,0.14
+HCO3 AS CACO3,Alkalinity - Bicarbonate Alkalinity as CaCO3,66,34,32,31,30,27,25,26,22,23
+HG,MS Total Metals - Mercury,<0.0001,<0.0001,<0.0001,<0.0001,<0.0001,<0.0001,<0.0001,<0.0001,<0.0001,<0.0001
+MN,MS Total Metals - Manganese,0.46,0.004,<0.001,0.001,<0.001,0.001,0.001,0.037,0.017,0.009
+NA,OES Scan - Sodium,54,30,26,27,24,23,23,26,23,24
+OH AS CACO3,Alkalinity - Hydroxide Alkalinity as CaCO3,<2,<2,<2,<2,<2,<2,<2,<2,<2,<2
+PB,MS Total Metals - Lead,<0.001,<0.001,<0.001,<0.001,0.001,<0.001,<0.001,0.002,<0.001,0.001
+PH,pH - pH,7.7,7.7,7.7,7.7,7.6,7.7,7.7,7.5,7.5,7.5
+PLATE COUNT 36 C,Plate Count - Plate Count 36°C,>2000,>2000,220,280,300,120,76,160,340,>2000
+SILICA,"React. Silica - Silica, reactive as SiO2",0.52,0.88,0.95,1,0.8,0.77,0.82,1.1,1.2,1.5
+SUS SOLIDS,SS at 104+/- 2°C - Suspended Solids,9,<2,<2,<2,<2,<2,<2,<2,<2,<2
+TDS_180,TDS at 180°C +/- 5°C - Total Dissolved Solids,230,130,120,130,100,130,110,120,110,130
+TOC,TOC (SFA) - Total Organic Carbon,12,5,3.7,3.6,3.3,4,3.6,3.9,4.3,4.9
+TRUE COLOUR,ColourFilt - Colour (filt),28,12,12,12,12,8,12,20,24,28
+TURBIDITY,Turbidity - Turbidity,9.1,0.6,0.3,0.6,0.3,0.3,0.2,0.6,0.4,0.3
+UV TRANS,"UV Trans254 - UV Transmission at 254 nm, 1 cm path",46,78,79,81,81,83,84,73,70,64
+W-CHLORIDE(DA),Chloride - Chloride,99,55,49,46,47,45,45,53,47,48
+W-HARDNESS,Hardness,75,38,N/R,N/R,N/R,N/R,N/R,N/R,N/R,N/R
+W-NO3-N,NO3-N - Nitrate as N,<0.01,0.57,0.5,0.58,0.51,0.47,0.53,0.55,0.43,0.41
+W-SO4-DA,SO4 DA - Sulphate,<5 LINT,4,3,4,3,3,3,37,5,6
