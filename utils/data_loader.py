@@ -79,8 +79,11 @@ def load_all_data():
         data['info'] = load_csv_directory('data/info', 'Info *.csv')
         data['alarms'] = load_csv_directory('data/alarms', 'Alarms *.csv')
         data['warnings'] = load_csv_directory('data/warnings', 'Warnings *.csv')
-        data['sequences'] = load_csv_directory('data/sequences', 'Sequences *.csv')
         data['telemetry'] = load_csv_directory('data/telemetry', 'Telemetry *.csv')
+        
+        # Load sequences data
+        data['sequences'] = load_sequence_files()
+        data['sequence_states'] = load_sequence_states()
         
         # Load static data files
         data['assets'] = pd.read_csv('data/Assets.csv')
@@ -104,6 +107,52 @@ def load_all_data():
         st.error(f"Error loading data: {str(e)}")
         raise e
 
+def load_sequence_files(directory_path="data/sequences"):
+    """Load and combine all sequence CSV files"""
+    csv_files = glob(os.path.join(directory_path, "Sequences *.csv"))
+    
+    if not csv_files:
+        raise FileNotFoundError(f"No Sequence CSV files found in {directory_path}")
+    
+    dfs = []
+    for file in csv_files:
+        try:
+            df = pd.read_csv(file, low_memory=False)
+            df['_source_file'] = os.path.basename(file)
+            dfs.append(df)
+        except Exception as e:
+            st.warning(f"Error loading {file}: {str(e)}")
+            continue
+    
+    if not dfs:
+        raise ValueError(f"No valid Sequence CSV files could be loaded from {directory_path}")
+    
+    combined_df = pd.concat(dfs, ignore_index=True)
+    
+    # Convert timestamp to datetime
+    combined_df['timestamp'] = pd.to_datetime(combined_df['timestamp'], dayfirst=False, utc=True)
+    
+    # Sort by timestamp and remove duplicates
+    combined_df = combined_df.sort_values('timestamp')
+    combined_df = combined_df.drop_duplicates(
+        subset=[col for col in combined_df.columns if col != '_source_file'], 
+        keep='last'
+    )
+    
+    combined_df = combined_df.drop('_source_file', axis=1)
+    return combined_df
+
+def load_sequence_states(file_path="data/Sequence States.csv"):
+    """Load sequence states mapping file"""
+    try:
+        states_df = pd.read_csv(file_path)
+        # Ensure State ID is numeric for matching
+        states_df['State ID'] = pd.to_numeric(states_df['State ID'], errors='coerce')
+        return states_df
+    except Exception as e:
+        st.error(f"Error loading sequence states: {str(e)}")
+        raise
+        
 def get_chart_data(week_num, params, data_type='influent', show_comparison=False):
     """Get processed data ready for charting"""
     # Load data

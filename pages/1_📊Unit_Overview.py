@@ -141,317 +141,356 @@ def create_energy_metrics(energy_df):
         )
         st.plotly_chart(fig_dow, use_container_width=True)
 
-def create_efficiency_metrics(telemetry_df):
-    """Create and display system efficiency metrics and visualizations based on telemetry data"""
+def create_efficiency_metrics(sequences_df, sequence_states_df):
+    """Create and display system efficiency metrics and visualizations based on sequence data"""
     
-    def categorize_state(state_name):
-        """Categorize states into main categories with subcategories"""
-        state_lower = state_name.lower()
-        
-        # Production states
-        if 'production' in state_lower:
-            return 'Production', 'Main Production'
-        elif 'uvlamp' in state_lower:
-            return 'Production', 'UV Treatment'
-        elif 'permeability' in state_lower:
-            return 'Production', 'Permeability Test'
-            
-        # Cleaning states
-        elif any(x in state_lower for x in ['flush', 'clean', 'scour', 'backwash']):
-            if 'prefilter' in state_lower:
-                return 'Cleaning', 'Prefilter Cleaning'
-            elif 'system' in state_lower:
-                return 'Cleaning', 'System Flush'
-            else:
-                return 'Cleaning', 'Membrane Cleaning'
-                
-        # Testing states
-        elif 'test' in state_lower:
-            if 'leakage' in state_lower:
-                return 'Testing', 'Leakage Test'
-            elif 'integrity' in state_lower:
-                return 'Testing', 'Integrity Test'
-            else:
-                return 'Testing', 'Other Tests'
-                
-        # System states
-        elif any(x in state_lower for x in ['initialization', 'wait', 'stop', 'alarm', 'health']):
-            return 'System', state_name
-            
-        # Default/Unknown
-        return 'Other', state_name
+    # Merge sequences with state information
+    sequences_df['code'] = pd.to_numeric(sequences_df['code'], errors='coerce')
+    analysis_df = pd.merge(
+        sequences_df,
+        sequence_states_df,
+        left_on='code',
+        right_on='State ID',
+        how='left'
+    )
+    
+    # Calculate durations between state changes
+    analysis_df['duration'] = analysis_df['timestamp'].diff(-1).dt.total_seconds().abs() / 60
+    analysis_df['duration'] = analysis_df['duration'].fillna(analysis_df['duration'].median())
+    analysis_df['date'] = analysis_df['timestamp'].dt.date
+    analysis_df['hour'] = analysis_df['timestamp'].dt.hour
+    
+    # Setup visualization controls in sidebar only
+    st.sidebar.header("Visualization Settings")
+    view_type = st.sidebar.radio("View Type", ["Hours", "Ratio"])
+    show_manufacturing = st.sidebar.checkbox("Show Manufacturing States", value=False)
 
-    def process_telemetry_sequences(df):
-        """Process telemetry data into sequence intervals using packet counting"""
-        df = df.sort_values('timestamp')
-        
-        # Group by sequence and count packets
-        sequence_counts = df.groupby(['FLOWSEQUENCE', df['timestamp'].dt.date]).size().reset_index()
-        sequence_counts.columns = ['state_name', 'date', 'packet_count']
-        
-        # Calculate duration (10 seconds per packet)
-        sequence_counts['duration'] = sequence_counts['packet_count'] * 10 / 60  # Convert to minutes
-        
-        # Add categories
-        sequence_counts[['category', 'sub_category']] = sequence_counts.apply(
-            lambda x: pd.Series(categorize_state(x['state_name'])), axis=1
-        )
-        
-        # Calculate average metrics per state
-        sequences = []
-        for _, row in sequence_counts.iterrows():
-            state_data = df[df['FLOWSEQUENCE'] == row['state_name']]
-            
-            sequences.append({
-                'state_name': row['state_name'],
-                'date': row['date'],
-                'category': row['category'],
-                'sub_category': row['sub_category'],
-                'duration': row['duration'],
-                'packet_count': row['packet_count'],
-                'avg_pressure': state_data['PTC101_PRESSURE'].mean(),
-                'avg_flow': state_data['FTR102_FLOWRATE'].mean()
-            })
-        
-        return pd.DataFrame(sequences)
-        
-        # Add the last sequence
-        if current_sequence is not None:
-            duration = (pd.to_datetime(df['timestamp'].iloc[-1]) - pd.to_datetime(start_time)).total_seconds() / 60
-            main_category, sub_category = categorize_state(current_sequence)
-            sequences.append({
-                'state_name': current_sequence,
-                'start_time': start_time,
-                'end_time': df['timestamp'].iloc[-1],
-                'category': main_category,
-                'sub_category': sub_category,
-                'duration': duration,
-                'avg_pressure': df[df['timestamp'] >= start_time]['PTC101_PRESSURE'].mean(),
-                'avg_flow': df[df['timestamp'] >= start_time]['FTR102_FLOWRATE'].mean()
-            })
-        
-        return pd.DataFrame(sequences)
-
-    # Process sequences
-    sequences_df = process_telemetry_sequences(telemetry_df)
-    sequences_df['start_time'] = pd.to_datetime(sequences_df['start_time'])
-    sequences_df['end_time'] = pd.to_datetime(sequences_df['end_time'])
-    
-    # Calculate high-level metrics
-    last_24h = sequences_df[sequences_df['end_time'] >= (sequences_df['end_time'].max() - pd.Timedelta(hours=24))]
-    last_7d = sequences_df[sequences_df['end_time'] >= (sequences_df['end_time'].max() - pd.Timedelta(days=7))]
-    
-    def calculate_period_metrics(period_df):
-        total_duration = period_df['duration'].sum()
-        production_time = period_df[period_df['category'] == 'Production']['duration'].sum()
-        cleaning_time = period_df[period_df['category'] == 'Cleaning']['duration'].sum()
-        
-        return {
-            'production_pct': (production_time / total_duration * 100) if total_duration > 0 else 0,
-            'cleaning_pct': (cleaning_time / total_duration * 100) if total_duration > 0 else 0,
-            'avg_production_flow': period_df[period_df['category'] == 'Production']['avg_flow'].mean(),
-            'state_changes': len(period_df)
-        }
-    
-    current_metrics = calculate_period_metrics(last_24h)
-    previous_metrics = calculate_period_metrics(last_7d)
-    
-    # Display metrics
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        st.metric(
-            "Production Uptime",
-            f"{current_metrics['production_pct']:.1f}%",
-            f"{current_metrics['production_pct'] - previous_metrics['production_pct']:.1f}%"
-        )
-    
-    with col2:
-        st.metric(
-            "Average Production Flow",
-            f"{current_metrics['avg_production_flow']:.1f} L/min",
-            f"{(current_metrics['avg_production_flow'] - previous_metrics['avg_production_flow']):.1f} L/min"
-        )
-    
-    with col3:
-        st.metric(
-            "State Changes (24h)",
-            f"{current_metrics['state_changes']}",
-            f"{current_metrics['state_changes'] - previous_metrics['state_changes']}"
-        )
-    
-    # Create state distribution charts
-    colors = {
-        'Production': '#2ECC71',
-        'Cleaning': '#E74C3C',
-        'Testing': '#F1C40F',
-        'System': '#3498DB',
-        'Other': '#95A5A6'
+    # Process state categories
+    state_categories = {
+        'Water Production': 'Production',
+        'Cleaning & Disinfection': 'Maintenance',
+        'Testing': 'Testing',
+        'System Management': 'System',
+        'Manufacturing': 'Manufacturing',
+        'In-Field Self Test': 'Testing'
     }
     
-    # Time-based distribution (in hours)
-    daily_duration = sequences_df.groupby(['date', 'category'])['duration'].sum().reset_index()
-    daily_duration_wide = daily_duration.pivot(index='date', columns='category', values='duration').fillna(0)
+    # Apply state categories
+    analysis_df['State Type'] = analysis_df['State Type'].map(state_categories)
     
-    fig_distribution = go.Figure()
-    for category in daily_duration_wide.columns:
-        fig_distribution.add_trace(go.Bar(
-            name=category,
-            x=daily_duration_wide.index,
-            y=daily_duration_wide[category] / 60,  # Convert to hours
-            marker_color=colors.get(category, '#95A5A6')
-        ))
+    # Filter out manufacturing states if not selected
+    filtered_df = analysis_df.copy()
+    if not show_manufacturing:
+        filtered_df = filtered_df[~filtered_df['State Type'].isin(['Manufacturing', 'Testing'])]
     
-    fig_distribution.update_layout(
-        barmode='stack',
-        title='Daily State Distribution (Hours)',
-        xaxis_title='Date',
-        yaxis_title='Duration (hours)',
-        height=300,
-        hovermode='x unified'
+    # Add option for handling days over 24 hours
+    st.sidebar.subheader("Time Handling")
+    time_handling = st.sidebar.radio(
+        "Days Over 24 Hours",
+        ["Hide", "Clean Split", "Raw Split", "Show All"],
+        help="Hide: Remove days over 24h\nClean Split: Split and validate state logic\nRaw Split: Basic chronological split\nShow All: Show actual durations"
     )
-    st.plotly_chart(fig_distribution, use_container_width=True)
     
-    # Normalized distribution (ratios)
-    daily_totals = daily_duration_wide.sum(axis=1)
-    normalized_duration = daily_duration_wide.div(daily_totals, axis=0) * 100
-    
-    fig_normalized = go.Figure()
-    for category in normalized_duration.columns:
-        fig_normalized.add_trace(go.Bar(
-            name=category,
-            x=normalized_duration.index,
-            y=normalized_duration[category],
-            marker_color=colors.get(category, '#95A5A6')
-        ))
-    
-    fig_normalized.update_layout(
-        barmode='stack',
-        title='Daily State Distribution (Normalized)',
-        xaxis_title='Date',
-        yaxis_title='Percentage (%)',
-        height=300,
-        hovermode='x unified'
-    )
-    st.plotly_chart(fig_normalized, use_container_width=True)
-    
-    # Create detailed state analysis
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        # Average duration by state category
-        avg_duration = sequences_df.groupby('sub_category')['duration'].mean().reset_index()
-        avg_duration = avg_duration.sort_values('duration', ascending=True)
+    # Process daily durations based on selected handling method
+    if time_handling != "Show All":
+        # Calculate daily totals
+        daily_totals = filtered_df.groupby('date')['duration'].sum().reset_index()
         
-        fig_duration = go.Figure(data=[
-            go.Bar(
-                y=avg_duration['sub_category'],
-                x=avg_duration['duration'],
-                orientation='h',
-                marker_color='#3498DB'
-            )
-        ])
+        if time_handling == "Hide":
+            # Filter out days over 24 hours
+            valid_days = daily_totals[daily_totals['duration'] <= 24 * 60]['date']
+            filtered_df = filtered_df[filtered_df['date'].isin(valid_days)]
         
-        fig_duration.update_layout(
-            title='Average Duration by State',
-            xaxis_title='Duration (minutes)',
-            yaxis_title='State',
-            height=400
+        elif time_handling in ["Clean Split", "Raw Split"]:
+            # Sort by timestamp to maintain chronological order
+            filtered_df = filtered_df.sort_values('timestamp')
+            
+            # Initialize new dataframe for split states
+            split_states = []
+            current_day_duration = 0
+            current_date = filtered_df['date'].iloc[0]
+            prev_state_type = None
+            
+            for _, row in filtered_df.iterrows():
+                state_duration = row['duration']
+                remaining_time = (24 * 60) - current_day_duration
+                
+                if current_day_duration + state_duration <= 24 * 60:
+                    # State fits in current day
+                    if time_handling == "Clean Split":
+                        # Validate state transition
+                        if prev_state_type == row['State Type'] and prev_state_type in ['Maintenance', 'System']:
+                            # Skip duplicate maintenance/system states
+                            continue
+                    split_states.append(row)
+                    current_day_duration += state_duration
+                    prev_state_type = row['State Type']
+                else:
+                    # Split state across days
+                    if remaining_time > 0:
+                        # Add portion to current day
+                        first_part = row.copy()
+                        first_part['duration'] = remaining_time
+                        if time_handling == "Clean Split":
+                            if not (prev_state_type == row['State Type'] and prev_state_type in ['Maintenance', 'System']):
+                                split_states.append(first_part)
+                                prev_state_type = row['State Type']
+                        else:
+                            split_states.append(first_part)
+                    
+                    # Add remaining duration to next day(s)
+                    remaining_duration = state_duration - remaining_time
+                    while remaining_duration > 0:
+                        current_date = current_date + pd.Timedelta(days=1)
+                        current_day_duration = 0
+                        
+                        next_part = row.copy()
+                        next_part['date'] = current_date
+                        next_duration = min(24 * 60, remaining_duration)
+                        
+                        if time_handling == "Clean Split":
+                            # For clean split, don't allow maintenance/system states to span multiple days
+                            if row['State Type'] in ['Maintenance', 'System']:
+                                next_duration = min(next_duration, 8 * 60)  # Max 8 hours for maintenance/system
+                            if not (prev_state_type == row['State Type'] and prev_state_type in ['Maintenance', 'System']):
+                                next_part['duration'] = next_duration
+                                split_states.append(next_part)
+                                prev_state_type = row['State Type']
+                        else:
+                            next_part['duration'] = next_duration
+                            split_states.append(next_part)
+                        
+                        remaining_duration -= next_duration
+                        current_day_duration = next_duration
+                
+                # Check if we need to start a new day
+                if row['date'] != current_date:
+                    current_date = row['date']
+                    current_day_duration = state_duration if time_handling == "Raw Split" else min(state_duration, 8 * 60)
+                    prev_state_type = None  # Reset state type at day boundary
+            
+            filtered_df = pd.DataFrame(split_states)
+            
+            # Post-processing for Clean Split
+            if time_handling == "Clean Split":
+                # Group by date and calculate daily totals
+                daily_totals = filtered_df.groupby(['date', 'State Type'])['duration'].sum().reset_index()
+                daily_sum = daily_totals.groupby('date')['duration'].sum()
+                
+                # Remove days that still exceed 24 hours
+                valid_days = daily_sum[daily_sum <= 24 * 60].index
+                filtered_df = filtered_df[filtered_df['date'].isin(valid_days)]
+                
+                # Additional validation to remove impossible state combinations
+                filtered_df = filtered_df.sort_values(['date', 'timestamp'])
+                filtered_df['prev_state'] = filtered_df.groupby('date')['State Type'].shift(1)
+                filtered_df = filtered_df[
+                    ~((filtered_df['State Type'] == filtered_df['prev_state']) & 
+                      (filtered_df['State Type'].isin(['Maintenance', 'System'])))
+                ]
+    
+    # Calculate metrics for display
+    total_runtime = filtered_df['duration'].sum()
+    avg_duration = filtered_df['duration'].mean()
+    state_changes = len(filtered_df)
+    
+    # Calculate production vs cleaning metrics
+    production_time = filtered_df[filtered_df['State Type'] == 'Production']['duration'].sum()
+    cleaning_time = filtered_df[filtered_df['State Type'] == 'Maintenance']['duration'].sum()
+    total_time = production_time + cleaning_time
+    
+    production_percent = (production_time / total_time * 100) if total_time > 0 else 0
+    cleaning_percent = (cleaning_time / total_time * 100) if total_time > 0 else 0
+    
+    # Production vs Cleaning Summary
+    st.subheader("Production vs Maintenance Time")
+    cols = st.columns(4)
+    
+    # Production metrics
+    with cols[0]:
+        st.metric(
+            "Production Time",
+            f"{production_time/60:.1f} hours",
+            f"{production_percent:.1f}% of total"
         )
-        st.plotly_chart(fig_duration, use_container_width=True)
     
-    with col2:
-        # State transition patterns
-        state_transitions = pd.DataFrame({
-            'from_state': sequences_df['sub_category'].iloc[:-1].values,
-            'to_state': sequences_df['sub_category'].iloc[1:].values,
-            'count': 1
-        })
-        
-        transition_counts = state_transitions.groupby(['from_state', 'to_state'])['count'].sum().reset_index()
-        transition_counts = transition_counts.sort_values('count', ascending=False).head(10)
-        
-        fig_transitions = go.Figure(data=[
-            go.Bar(
-                x=transition_counts['count'],
-                y=[f"{row['from_state']} → {row['to_state']}" for _, row in transition_counts.iterrows()],
-                orientation='h',
-                marker_color='#E67E22'
-            )
-        ])
-        
-        fig_transitions.update_layout(
-            title='Top 10 State Transitions',
-            xaxis_title='Number of Transitions',
-            yaxis_title='Transition Pattern',
-            height=400
+    # Cleaning metrics
+    with cols[1]:
+        st.metric(
+            "Maintenance Time",
+            f"{cleaning_time/60:.1f} hours",
+            f"{cleaning_percent:.1f}% of total"
         )
-        st.plotly_chart(fig_transitions, use_container_width=True)
     
-    # Add timeline view
-    st.subheader("Recent State Timeline")
-    recent_states = sequences_df.tail(50)  # Show last 50 states
+    # Production Ratio
+    with cols[2]:
+        ratio = production_time / cleaning_time if cleaning_time > 0 else float('inf')
+        st.metric(
+            "Production/Maintenance Ratio",
+            f"{ratio:.1f}",
+            "Higher is better"
+        )
     
-    fig_timeline = go.Figure()
+    # Total runtime
+    with cols[3]:
+        st.metric(
+            "Total Runtime",
+            f"{total_runtime/60:.1f} hours",
+            f"{state_changes:,} state changes"
+        )
+
+    # Define color scheme for all visualizations
+    colors = {
+        'Production': '#2ECC71',
+        'Maintenance': '#E74C3C',
+        'System': '#3498DB',
+        'Testing': '#F1C40F',
+        'Manufacturing': '#95A5A6'
+    }
+
+    # 1. Daily State Distribution
+    st.subheader("Daily State Distribution")
     
-    for category in colors.keys():
-        category_data = recent_states[recent_states['category'] == category]
-        if not category_data.empty:
-            fig_timeline.add_trace(go.Scatter(
-                x=category_data['start_time'],
-                y=[category] * len(category_data),
-                mode='markers',
-                name=category,
-                marker=dict(
-                    color=colors[category],
-                    size=10
-                ),
-                hovertext=[f"{row['sub_category']}<br>Duration: {row['duration']:.1f} min" 
-                          for _, row in category_data.iterrows()],
-                hoverinfo='text+x'
+    daily_states = filtered_df.groupby(['date', 'State Type'])['duration'].sum().reset_index()
+    
+    if view_type == "Hours":
+        daily_pivot = daily_states.pivot(
+            index='date',
+            columns='State Type',
+            values='duration'
+        ).fillna(0)
+        
+        fig_daily = go.Figure()
+        colors = {
+            'Production': '#2ECC71',
+            'Maintenance': '#E74C3C',
+            'System': '#3498DB',
+            'Testing': '#F1C40F',
+            'Manufacturing': '#95A5A6'
+        }
+        
+        for state in daily_pivot.columns:
+            fig_daily.add_trace(go.Bar(
+                name=state,
+                x=daily_pivot.index,
+                y=daily_pivot[state] / 60,  # Convert to hours
+                marker_color=colors.get(state, '#95A5A6')
             ))
-    
-    fig_timeline.update_layout(
-        title='State Timeline',
-        xaxis_title='Time',
-        yaxis_title='Category',
-        height=300,
-        showlegend=True,
-        hovermode='closest'
-    )
-    st.plotly_chart(fig_timeline, use_container_width=True)
-    
-    # Add efficiency insights
-    st.subheader("System Efficiency Insights")
-    
-    # Calculate insights
-    total_transitions = len(sequences_df)
-    avg_state_duration = sequences_df['duration'].mean()
-    most_common_state = sequences_df['sub_category'].mode().iloc[0]
-    production_pressure = sequences_df[sequences_df['category'] == 'Production']['avg_pressure'].mean()
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.info(f"""
-        📊 System Statistics:
-        - Total state transitions: {total_transitions}
-        - Average state duration: {avg_state_duration:.1f} minutes
-        - Most common state: {most_common_state}
-        - Average production pressure: {production_pressure:.1f} PSI
-        """)
-    
-    with col2:
-        # Calculate recent anomalies or patterns
-        short_states = sequences_df[sequences_df['duration'] < 1].shape[0]
-        cleaning_frequency = sequences_df[sequences_df['category'] == 'Cleaning'].shape[0]
         
-        st.warning(f"""
-        ⚠️ System Patterns:
-        - Short duration states (<1 min): {short_states}
-        - Cleaning cycles in period: {cleaning_frequency}
-        - Total packets processed: {sequences_df['packet_count'].sum():,}
-        """)
+        fig_daily.update_layout(
+            barmode='stack',
+            title='Daily State Distribution (Hours)',
+            xaxis_title='Date',
+            yaxis_title='Hours',
+            height=400,
+            hovermode='x unified'
+        )
+    else:
+        # Calculate percentages
+        daily_total = daily_states.groupby('date')['duration'].sum().reset_index()
+        daily_states = daily_states.merge(daily_total, on='date', suffixes=('', '_total'))
+        daily_states['percentage'] = (daily_states['duration'] / daily_states['duration_total']) * 100
+        
+        daily_pivot = daily_states.pivot(
+            index='date',
+            columns='State Type',
+            values='percentage'
+        ).fillna(0)
+        
+        fig_daily = go.Figure()
+        for state in daily_pivot.columns:
+            fig_daily.add_trace(go.Bar(
+                name=state,
+                x=daily_pivot.index,
+                y=daily_pivot[state],
+                marker_color=colors.get(state, '#95A5A6')
+            ))
+            
+        fig_daily.update_layout(
+            barmode='stack',
+            title='Daily State Distribution (%)',
+            xaxis_title='Date',
+            yaxis_title='Percentage',
+            height=400,
+            hovermode='x unified',
+            yaxis_range=[0, 100]
+        )
+    
+    st.plotly_chart(fig_daily, use_container_width=True)
+
+    # 2. Average Day Pattern
+    st.subheader("Average Day State Distribution")
+    
+    hourly_states = filtered_df.groupby(['hour', 'State Type'])['duration'].sum().reset_index()
+    hourly_total = hourly_states.groupby('hour')['duration'].sum().reset_index()
+    hourly_states = hourly_states.merge(hourly_total, on='hour', suffixes=('', '_total'))
+    hourly_states['percentage'] = (hourly_states['duration'] / hourly_states['duration_total']) * 100
+    
+    hourly_pivot = hourly_states.pivot(
+        index='State Type',
+        columns='hour',
+        values='percentage'
+    ).fillna(0)
+    
+    fig_heatmap = go.Figure(data=go.Heatmap(
+        z=hourly_pivot.values,
+        x=[f"{hour:02d}:00" for hour in range(24)],
+        y=hourly_pivot.index,
+        colorscale='Viridis',
+        hovertemplate="Hour: %{x}<br>State: %{y}<br>Percentage: %{z:.1f}%<extra></extra>"
+    ))
+    
+    fig_heatmap.update_layout(
+        title="Hourly State Distribution",
+        xaxis_title="Hour of Day",
+        yaxis_title="State Type",
+        height=400
+    )
+    
+    st.plotly_chart(fig_heatmap, use_container_width=True)
+
+    # 3. State Transition Flow (Sankey)
+    st.subheader("State Transition Flow")
+    
+    transitions = filtered_df[['State Type', 'timestamp']].copy()
+    transitions['next_state'] = transitions['State Type'].shift(-1)
+    transitions = transitions.dropna()
+    
+    transition_counts = transitions.groupby(['State Type', 'next_state']).size().reset_index(name='value')
+    
+    # Create node lists and map indices
+    unique_states = list(set(transition_counts['State Type'].unique()) | 
+                        set(transition_counts['next_state'].unique()))
+    state_to_index = {state: idx for idx, state in enumerate(unique_states)}
+    
+    sankey_data = dict(
+        node=dict(
+            pad=15,
+            thickness=20,
+            line=dict(color="black", width=0.5),
+            label=unique_states,
+            color=[colors.get(state, '#95A5A6') for state in unique_states]
+        ),
+        link=dict(
+            source=[state_to_index[row['State Type']] for _, row in transition_counts.iterrows()],
+            target=[state_to_index[row['next_state']] for _, row in transition_counts.iterrows()],
+            value=transition_counts['value'],
+            color=[f"rgba{tuple(int(colors.get(row['State Type'], '#95A5A6').lstrip('#')[i:i+2], 16) for i in (0, 2, 4)) + (0.4,)}"
+                  for _, row in transition_counts.iterrows()]
+        )
+    )
+    
+    fig_sankey = go.Figure(data=[go.Sankey(
+        node=sankey_data['node'],
+        link=sankey_data['link']
+    )])
+    
+    fig_sankey.update_layout(
+        title="State Transition Flow",
+        height=400
+    )
+    
+    st.plotly_chart(fig_sankey, use_container_width=True)
 
 def create_production_metrics(production_df):
     """Create water production metrics and charts"""
@@ -586,9 +625,10 @@ def main():
     data = load_all_data()
     
     # Get sequence data from loaded data
-    telemetry_df  = data['telemetry']
+    sequences_df = data['sequences']
+    sequence_states_df = data['sequence_states']
     
-    ### Generate dummy data ###
+    ### Generate dummy data for other sections ###
     end_date = datetime.now()
     start_date = end_date - timedelta(days=30)
     
@@ -608,7 +648,7 @@ def main():
     
     with tab3:
         st.header("System Efficiency Analysis")
-        create_efficiency_metrics(telemetry_df)
+        create_efficiency_metrics(sequences_df, sequence_states_df)
     
     # Add footer with last update time
     st.markdown("---")
