@@ -462,7 +462,7 @@ def create_radar_chart(week_num, als_lookups, data_df, treated_data, ranges_df, 
         ),
         showlegend=True,
         height=500,  # Increased height
-        title=category if category else "",
+        title="",
         margin=dict(t=50, b=50, l=80, r=80),  # Increased margins
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)'
