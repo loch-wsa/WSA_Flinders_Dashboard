@@ -1,0 +1,170 @@
+unitserialnumber,code,deviceId,timestamp,manual,type,message,alarm_type
+2024004,2000.0,un0000000000002155,2025-01-08 03:00:51,False,4,Received the command for initializationstate,INFO
+2024004,4033.0,un0000000000002155,2025-01-08 03:02:10,False,4,GENERAL SYSTEM - FILL Membrane Feed & Filtrate Sides With Water,INFO
+2024004,4036.0,un0000000000002155,2025-01-08 03:08:12,False,4,MEMBRANE AIR SCOUR - EXECUTE Another Clean Cycle If LAST Air Scour Was Interrupted/Was Not Completed In Its Entirety,INFO
+2024004,4028.0,un0000000000002155,2025-01-08 03:09:25,False,4,CHECK - FILL Clean-In-Place (CIP) Water Tank With Treated Water - If Insufficient Volume Of Water Stored In The Clean-In-Place (CIP) Water Tank For Current Sequence,INFO
+2024004,4034.0,un0000000000002155,2025-01-08 03:10:40,False,4,GENERAL SYSTEM - FILL Clean-In-Place (CIP) Water Tank With Treated Water For Immediate Use,INFO
+2024004,4037.0,un0000000000002155,2025-01-08 03:43:34,False,4,"MEMBRANE CLEANING - TEST Membrane Flux Profile, Post Membrane Air Scouring And/Or Membrane Maintenance Clean",INFO
+2024004,4050.0,un0000000000002155,2025-01-08 03:48:55,False,4,STOP Membrane Flux Profile Test - Test PASSED,INFO
+2024004,4043.0,un0000000000002155,2025-01-08 03:50:09,False,4,"MEMBRANE DIRECT INTEGRITY (DIT) TEST -  Complete DIT, If The Maximum Allowed Time Without A DIT Has Been Exceeded",INFO
+2024004,4020.0,un0000000000002155,2025-01-08 04:10:28,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,2000.0,un0000000000002155,2025-01-08 04:39:57,False,4,Received the command for initializationstate,INFO
+2024004,4020.0,un0000000000002155,2025-01-08 04:41:30,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,4020.0,un0000000000002155,2025-01-08 04:50:15,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,4020.0,un0000000000002155,2025-01-08 05:28:34,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,4020.0,un0000000000002155,2025-01-08 08:12:29,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,,un0000000000002155,2025-01-08 11:33:51,False,4,Received the command for stopstate,INFO
+2024004,2000.0,un0000000000002155,2025-01-08 11:34:26,False,4,Received the command for initializationstate,INFO
+2024004,4020.0,un0000000000002155,2025-01-08 22:59:33,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,,un0000000000002155,2025-01-08 23:00:44,False,4,Received the command for stopstate,INFO
+2024004,2000.0,un0000000000002155,2025-01-08 23:02:10,False,4,Received the command for initializationstate,INFO
+2024004,,un0000000000002155,2025-01-08 23:02:52,False,4,Received the command for stopstate,INFO
+2024004,2000.0,un0000000000002155,2025-01-09 02:03:53,False,4,Received the command for initializationstate,INFO
+2024004,4020.0,un0000000000002155,2025-01-09 02:05:28,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,4061.0,un0000000000002155,2025-01-09 02:31:17,False,4,CLEAN IN PLACE TRIGGER - Transition to Membrane Air Scour State - IF Cleaning In-Place Cycle Trigger Mode Is Set To TIME,INFO
+2024004,4061.0,un0000000000002155,2025-01-09 02:31:47,False,4,CLEAN IN PLACE TRIGGER - Transition to Membrane Air Scour State - IF Cleaning In-Place Cycle Trigger Mode Is Set To TIME,INFO
+2024004,4037.0,un0000000000002155,2025-01-09 02:50:23,False,4,"MEMBRANE CLEANING - TEST Membrane Flux Profile, Post Membrane Air Scouring And/Or Membrane Maintenance Clean",INFO
+2024004,4050.0,un0000000000002155,2025-01-09 02:55:16,False,4,STOP Membrane Flux Profile Test - Test PASSED,INFO
+2024004,4020.0,un0000000000002155,2025-01-09 02:56:25,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,4043.0,un0000000000002155,2025-01-09 04:05:39,False,4,"MEMBRANE DIRECT INTEGRITY (DIT) TEST -  Complete DIT, If The Maximum Allowed Time Without A DIT Has Been Exceeded",INFO
+2024004,4043.0,un0000000000002155,2025-01-09 04:06:08,False,4,"MEMBRANE DIRECT INTEGRITY (DIT) TEST -  Complete DIT, If The Maximum Allowed Time Without A DIT Has Been Exceeded",INFO
+2024004,4020.0,un0000000000002155,2025-01-09 04:26:18,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,,un0000000000002155,2025-01-12 23:55:06,False,4,Received the command for stopstate,INFO
+2024004,2000.0,un0000000000002155,2025-01-12 23:55:21,False,4,Received the command for initializationstate,INFO
+2024004,4043.0,un0000000000002155,2025-01-12 23:56:56,False,4,"MEMBRANE DIRECT INTEGRITY (DIT) TEST -  Complete DIT, If The Maximum Allowed Time Without A DIT Has Been Exceeded",INFO
+2024004,4020.0,un0000000000002155,2025-01-13 00:17:25,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,4061.0,un0000000000002155,2025-01-13 00:57:21,False,4,CLEAN IN PLACE TRIGGER - Transition to Membrane Air Scour State - IF Cleaning In-Place Cycle Trigger Mode Is Set To TIME,INFO
+2024004,4061.0,un0000000000002155,2025-01-13 00:57:50,False,4,CLEAN IN PLACE TRIGGER - Transition to Membrane Air Scour State - IF Cleaning In-Place Cycle Trigger Mode Is Set To TIME,INFO
+2024004,4037.0,un0000000000002155,2025-01-13 01:15:35,False,4,"MEMBRANE CLEANING - TEST Membrane Flux Profile, Post Membrane Air Scouring And/Or Membrane Maintenance Clean",INFO
+2024004,4050.0,un0000000000002155,2025-01-13 01:20:30,False,4,STOP Membrane Flux Profile Test - Test PASSED,INFO
+2024004,4020.0,un0000000000002155,2025-01-13 01:21:41,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,4062.0,un0000000000002155,2025-01-13 02:11:37,False,4,CLEAN IN PLACE TRIGGER - Transition to Pre-Filter Flush Clean State - IF Cleaning In-Place Cycle Trigger Mode Is Set To TIME,INFO
+2024004,4062.0,un0000000000002155,2025-01-13 02:12:06,False,4,CLEAN IN PLACE TRIGGER - Transition to Pre-Filter Flush Clean State - IF Cleaning In-Place Cycle Trigger Mode Is Set To TIME,INFO
+2024004,4020.0,un0000000000002155,2025-01-13 02:21:35,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,,un0000000000002155,2025-01-13 03:38:48,False,4,Received the command for stopstate,INFO
+2024004,2000.0,un0000000000002155,2025-01-13 03:39:03,False,4,Received the command for initializationstate,INFO
+2024004,4020.0,un0000000000002155,2025-01-13 03:40:37,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,4061.0,un0000000000002155,2025-01-13 04:44:51,False,4,CLEAN IN PLACE TRIGGER - Transition to Membrane Air Scour State - IF Cleaning In-Place Cycle Trigger Mode Is Set To TIME,INFO
+2024004,4061.0,un0000000000002155,2025-01-13 04:45:21,False,4,CLEAN IN PLACE TRIGGER - Transition to Membrane Air Scour State - IF Cleaning In-Place Cycle Trigger Mode Is Set To TIME,INFO
+2024004,4037.0,un0000000000002155,2025-01-13 05:03:41,False,4,"MEMBRANE CLEANING - TEST Membrane Flux Profile, Post Membrane Air Scouring And/Or Membrane Maintenance Clean",INFO
+2024004,4050.0,un0000000000002155,2025-01-13 05:09:00,False,4,STOP Membrane Flux Profile Test - Test PASSED,INFO
+2024004,4020.0,un0000000000002155,2025-01-13 05:10:17,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,,un0000000000002155,2025-01-13 05:58:42,False,4,Received the command for stopstate,INFO
+2024004,2000.0,un0000000000002155,2025-01-13 05:58:57,False,4,Received the command for initializationstate,INFO
+2024004,4020.0,un0000000000002155,2025-01-13 06:00:32,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,4061.0,un0000000000002155,2025-01-13 07:50:10,False,4,CLEAN IN PLACE TRIGGER - Transition to Membrane Air Scour State - IF Cleaning In-Place Cycle Trigger Mode Is Set To TIME,INFO
+2024004,4061.0,un0000000000002155,2025-01-13 07:50:34,False,4,CLEAN IN PLACE TRIGGER - Transition to Membrane Air Scour State - IF Cleaning In-Place Cycle Trigger Mode Is Set To TIME,INFO
+2024004,4037.0,un0000000000002155,2025-01-13 08:08:59,False,4,"MEMBRANE CLEANING - TEST Membrane Flux Profile, Post Membrane Air Scouring And/Or Membrane Maintenance Clean",INFO
+2024004,4050.0,un0000000000002155,2025-01-13 08:14:12,False,4,STOP Membrane Flux Profile Test - Test PASSED,INFO
+2024004,4020.0,un0000000000002155,2025-01-13 08:15:25,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,,un0000000000002155,2025-01-13 12:25:46,False,4,Received the command for stopstate,INFO
+2024004,2000.0,un0000000000002155,2025-01-13 12:26:01,False,4,Received the command for initializationstate,INFO
+2024004,4020.0,un0000000000002155,2025-01-13 12:38:01,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,,un0000000000002155,2025-01-13 23:21:14,False,4,Received the command for stopstate,INFO
+2024004,2000.0,un0000000000002155,2025-01-13 23:46:30,False,4,Received the command for initializationstate,INFO
+2024004,4020.0,un0000000000002155,2025-01-13 23:47:56,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,4043.0,un0000000000002155,2025-01-14 00:12:32,False,4,"MEMBRANE DIRECT INTEGRITY (DIT) TEST -  Complete DIT, If The Maximum Allowed Time Without A DIT Has Been Exceeded",INFO
+2024004,4043.0,un0000000000002155,2025-01-14 00:13:02,False,4,"MEMBRANE DIRECT INTEGRITY (DIT) TEST -  Complete DIT, If The Maximum Allowed Time Without A DIT Has Been Exceeded",INFO
+2024004,4020.0,un0000000000002155,2025-01-14 00:32:59,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,4020.0,un0000000000002155,2025-01-14 01:09:18,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,4061.0,un0000000000002155,2025-01-14 02:02:31,False,4,CLEAN IN PLACE TRIGGER - Transition to Membrane Air Scour State - IF Cleaning In-Place Cycle Trigger Mode Is Set To TIME,INFO
+2024004,4061.0,un0000000000002155,2025-01-14 02:03:01,False,4,CLEAN IN PLACE TRIGGER - Transition to Membrane Air Scour State - IF Cleaning In-Place Cycle Trigger Mode Is Set To TIME,INFO
+2024004,,un0000000000002155,2025-01-14 03:40:27,False,4,Received the command for stopstate,INFO
+2024004,2000.0,un0000000000002155,2025-01-14 03:40:52,False,4,Received the command for initializationstate,INFO
+2024004,4020.0,un0000000000002155,2025-01-14 03:42:27,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,4061.0,un0000000000002155,2025-01-14 05:15:21,False,4,CLEAN IN PLACE TRIGGER - Transition to Membrane Air Scour State - IF Cleaning In-Place Cycle Trigger Mode Is Set To TIME,INFO
+2024004,4061.0,un0000000000002155,2025-01-14 05:15:50,False,4,CLEAN IN PLACE TRIGGER - Transition to Membrane Air Scour State - IF Cleaning In-Place Cycle Trigger Mode Is Set To TIME,INFO
+2024004,4037.0,un0000000000002155,2025-01-14 05:34:12,False,4,"MEMBRANE CLEANING - TEST Membrane Flux Profile, Post Membrane Air Scouring And/Or Membrane Maintenance Clean",INFO
+2024004,4050.0,un0000000000002155,2025-01-14 05:39:31,False,4,STOP Membrane Flux Profile Test - Test PASSED,INFO
+2024004,4020.0,un0000000000002155,2025-01-14 05:40:45,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,4061.0,un0000000000002155,2025-01-14 08:01:02,False,4,CLEAN IN PLACE TRIGGER - Transition to Membrane Air Scour State - IF Cleaning In-Place Cycle Trigger Mode Is Set To TIME,INFO
+2024004,4061.0,un0000000000002155,2025-01-14 08:01:32,False,4,CLEAN IN PLACE TRIGGER - Transition to Membrane Air Scour State - IF Cleaning In-Place Cycle Trigger Mode Is Set To TIME,INFO
+2024004,4037.0,un0000000000002155,2025-01-14 08:19:53,False,4,"MEMBRANE CLEANING - TEST Membrane Flux Profile, Post Membrane Air Scouring And/Or Membrane Maintenance Clean",INFO
+2024004,4050.0,un0000000000002155,2025-01-14 08:25:12,False,4,STOP Membrane Flux Profile Test - Test PASSED,INFO
+2024004,4020.0,un0000000000002155,2025-01-14 08:26:24,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,4061.0,un0000000000002155,2025-01-14 10:47:03,False,4,CLEAN IN PLACE TRIGGER - Transition to Membrane Air Scour State - IF Cleaning In-Place Cycle Trigger Mode Is Set To TIME,INFO
+2024004,4061.0,un0000000000002155,2025-01-14 10:47:34,False,4,CLEAN IN PLACE TRIGGER - Transition to Membrane Air Scour State - IF Cleaning In-Place Cycle Trigger Mode Is Set To TIME,INFO
+2024004,4037.0,un0000000000002155,2025-01-14 11:06:14,False,4,"MEMBRANE CLEANING - TEST Membrane Flux Profile, Post Membrane Air Scouring And/Or Membrane Maintenance Clean",INFO
+2024004,4050.0,un0000000000002155,2025-01-14 11:12:04,False,4,STOP Membrane Flux Profile Test - Test PASSED,INFO
+2024004,4020.0,un0000000000002155,2025-01-14 11:13:18,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,4062.0,un0000000000002155,2025-01-14 12:04:54,False,4,CLEAN IN PLACE TRIGGER - Transition to Pre-Filter Flush Clean State - IF Cleaning In-Place Cycle Trigger Mode Is Set To TIME,INFO
+2024004,4062.0,un0000000000002155,2025-01-14 12:05:24,False,4,CLEAN IN PLACE TRIGGER - Transition to Pre-Filter Flush Clean State - IF Cleaning In-Place Cycle Trigger Mode Is Set To TIME,INFO
+2024004,4020.0,un0000000000002155,2025-01-14 12:14:45,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,4061.0,un0000000000002155,2025-01-14 14:05:37,False,4,CLEAN IN PLACE TRIGGER - Transition to Membrane Air Scour State - IF Cleaning In-Place Cycle Trigger Mode Is Set To TIME,INFO
+2024004,4061.0,un0000000000002155,2025-01-14 14:06:06,False,4,CLEAN IN PLACE TRIGGER - Transition to Membrane Air Scour State - IF Cleaning In-Place Cycle Trigger Mode Is Set To TIME,INFO
+2024004,4037.0,un0000000000002155,2025-01-14 14:24:27,False,4,"MEMBRANE CLEANING - TEST Membrane Flux Profile, Post Membrane Air Scouring And/Or Membrane Maintenance Clean",INFO
+2024004,4050.0,un0000000000002155,2025-01-14 14:29:47,False,4,STOP Membrane Flux Profile Test - Test PASSED,INFO
+2024004,4020.0,un0000000000002155,2025-01-14 14:31:01,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,4061.0,un0000000000002155,2025-01-14 16:51:18,False,4,CLEAN IN PLACE TRIGGER - Transition to Membrane Air Scour State - IF Cleaning In-Place Cycle Trigger Mode Is Set To TIME,INFO
+2024004,4061.0,un0000000000002155,2025-01-14 16:51:48,False,4,CLEAN IN PLACE TRIGGER - Transition to Membrane Air Scour State - IF Cleaning In-Place Cycle Trigger Mode Is Set To TIME,INFO
+2024004,4037.0,un0000000000002155,2025-01-14 17:10:29,False,4,"MEMBRANE CLEANING - TEST Membrane Flux Profile, Post Membrane Air Scouring And/Or Membrane Maintenance Clean",INFO
+2024004,4050.0,un0000000000002155,2025-01-14 17:16:09,False,4,STOP Membrane Flux Profile Test - Test PASSED,INFO
+2024004,4020.0,un0000000000002155,2025-01-14 17:17:23,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,,un0000000000002155,2025-01-15 01:26:17,False,4,Received the command for stopstate,INFO
+2024004,2000.0,un0000000000002155,2025-01-15 01:28:27,False,4,Received the command for initializationstate,INFO
+2024004,4043.0,un0000000000002155,2025-01-15 04:48:38,False,4,"MEMBRANE DIRECT INTEGRITY (DIT) TEST -  Complete DIT, If The Maximum Allowed Time Without A DIT Has Been Exceeded",INFO
+2024004,4020.0,un0000000000002155,2025-01-15 05:09:44,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,4061.0,un0000000000002155,2025-01-15 06:07:44,False,4,CLEAN IN PLACE TRIGGER - Transition to Membrane Air Scour State - IF Cleaning In-Place Cycle Trigger Mode Is Set To TIME,INFO
+2024004,4061.0,un0000000000002155,2025-01-15 06:08:13,False,4,CLEAN IN PLACE TRIGGER - Transition to Membrane Air Scour State - IF Cleaning In-Place Cycle Trigger Mode Is Set To TIME,INFO
+2024004,4037.0,un0000000000002155,2025-01-15 06:28:03,False,4,"MEMBRANE CLEANING - TEST Membrane Flux Profile, Post Membrane Air Scouring And/Or Membrane Maintenance Clean",INFO
+2024004,4050.0,un0000000000002155,2025-01-15 06:34:42,False,4,STOP Membrane Flux Profile Test - Test PASSED,INFO
+2024004,4020.0,un0000000000002155,2025-01-15 06:35:58,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,,un0000000000002155,2025-01-15 20:29:00,False,4,Received the command for stopstate,INFO
+2024004,2000.0,un0000000000002155,2025-01-15 20:30:05,False,4,Received the command for initializationstate,INFO
+2024004,4020.0,un0000000000002155,2025-01-15 20:31:40,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,2020.0,un0000000000002155,2025-01-15 20:33:25,False,4,Received the command for tagoutstate,INFO
+2024004,,un0000000000002155,2025-01-17 00:25:58,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 00:26:13,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 00:26:18,False,4,Received the command for stopstate,INFO
+2024004,2000.0,un0000000000002155,2025-01-17 00:27:24,False,4,Received the command for initializationstate,INFO
+2024004,4043.0,un0000000000002155,2025-01-17 00:30:47,False,4,"MEMBRANE DIRECT INTEGRITY (DIT) TEST -  Complete DIT, If The Maximum Allowed Time Without A DIT Has Been Exceeded",INFO
+2024004,,un0000000000002155,2025-01-17 00:32:02,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 00:32:46,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 00:32:51,False,4,Received the command for stopstate,INFO
+2024004,2000.0,un0000000000002155,2025-01-17 00:34:26,False,4,Received the command for initializationstate,INFO
+2024004,4046.0,un0000000000002155,2025-01-17 00:37:34,False,4,MEMBRANE DIRECT INTEGRITY (DIT) TEST - RETURN To Membrane Direct Integrity Testing (DIT) If LAST DIT Was Interrupted/Was Not Completed In Its Entirety,INFO
+2024004,,un0000000000002155,2025-01-17 00:38:44,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 00:39:28,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 00:39:33,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 00:39:38,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 00:39:43,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 00:39:48,False,4,Received the command for stopstate,INFO
+2024004,2000.0,un0000000000002155,2025-01-17 01:13:41,False,4,Received the command for initializationstate,INFO
+2024004,2000.0,un0000000000002155,2025-01-17 01:14:21,False,4,Received the command for initializationstate,INFO
+2024004,4046.0,un0000000000002155,2025-01-17 01:19:38,False,4,MEMBRANE DIRECT INTEGRITY (DIT) TEST - RETURN To Membrane Direct Integrity Testing (DIT) If LAST DIT Was Interrupted/Was Not Completed In Its Entirety,INFO
+2024004,4020.0,un0000000000002155,2025-01-17 01:40:29,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,4062.0,un0000000000002155,2025-01-17 01:55:43,False,4,CLEAN IN PLACE TRIGGER - Transition to Pre-Filter Flush Clean State - IF Cleaning In-Place Cycle Trigger Mode Is Set To TIME,INFO
+2024004,4062.0,un0000000000002155,2025-01-17 01:56:13,False,4,CLEAN IN PLACE TRIGGER - Transition to Pre-Filter Flush Clean State - IF Cleaning In-Place Cycle Trigger Mode Is Set To TIME,INFO
+2024004,4020.0,un0000000000002155,2025-01-17 02:06:45,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,,un0000000000002155,2025-01-17 02:09:22,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 02:10:29,False,4,Received the command for stopstate,INFO
+2024004,2000.0,un0000000000002155,2025-01-17 02:13:07,False,4,Received the command for initializationstate,INFO
+2024004,4020.0,un0000000000002155,2025-01-17 02:16:31,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,,un0000000000002155,2025-01-17 02:17:39,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 02:18:19,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 02:18:24,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 02:18:29,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 02:18:34,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 02:18:39,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 02:18:44,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 02:18:49,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 02:18:54,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 02:18:59,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 02:19:04,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 02:19:09,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 02:19:14,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 02:19:19,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 02:19:24,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 02:19:29,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 02:19:34,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 02:19:39,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 02:19:44,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 02:19:49,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 02:19:54,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 02:19:59,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 02:20:04,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 02:20:09,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 02:20:14,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2025-01-17 02:20:19,False,4,Received the command for stopstate,INFO
+2024004,2020.0,un0000000000002155,2025-01-17 02:29:21,False,4,Received the command for tagoutstate,INFO
+2024004,2020.0,un0000000000002155,2025-01-17 02:33:37,False,4,Received the command for tagoutstate,INFO

@@ -1,0 +1,136 @@
+unitserialnumber,code,deviceId,timestamp,manual,type,message,alarm_type
+2024004,,un0000000000002155,2024-11-15 03:49:27,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-15 03:50:36,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-15 03:50:41,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-15 04:11:20,False,4,Received the command for stopstate,INFO
+2024004,2000.0,un0000000000002155,2024-11-15 04:16:41,False,4,Received the command for initializationstate,INFO
+2024004,,un0000000000002155,2024-11-15 04:20:22,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-15 04:20:27,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-15 04:20:32,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-15 04:25:09,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-15 04:26:22,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-15 04:26:27,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-15 04:26:32,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-15 04:26:37,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-15 04:26:42,False,4,Received the command for stopstate,INFO
+2024004,2000.0,un0000000000002155,2024-11-15 04:42:57,False,4,Received the command for initializationstate,INFO
+2024004,,un0000000000002155,2024-11-15 04:53:21,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-15 04:54:38,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-15 04:54:43,False,4,Received the command for stopstate,INFO
+2024004,5003.0,un0000000000002155,2024-11-19 05:44:06,False,4,STOP System Line & Housing Flush To Drain - Pre-Pump - If Poison Timer Has Ended - Transition to TagOut State,INFO
+2024004,2000.0,un0000000000002155,2024-11-19 05:58:58,False,4,Received the command for initializationstate,INFO
+2024004,2000.0,un0000000000002155,2024-11-19 22:00:47,False,4,Received the command for initializationstate,INFO
+2024004,4003.0,un0000000000002155,2024-11-20 00:03:03,False,4,System leakage test - If Poison Timer Has Ended - Transition to TagOut State,INFO
+2024004,,un0000000000002155,2024-11-20 02:01:19,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-22 03:39:38,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-22 03:46:23,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-22 03:55:17,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-22 04:08:26,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-22 04:09:38,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-22 04:09:43,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-22 04:09:48,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-22 04:50:16,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-22 04:51:26,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-22 04:51:31,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-22 04:51:36,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-22 04:51:41,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-22 05:32:57,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-22 05:36:02,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-22 05:36:07,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-22 06:01:29,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-22 06:38:14,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-22 06:38:57,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-22 06:39:02,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-26 05:32:04,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-26 19:05:19,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-27 03:51:54,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-27 03:53:08,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-27 03:53:13,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-27 03:53:18,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-27 03:56:16,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-27 04:01:01,False,4,Received the command for stopstate,INFO
+2024004,,un0000000000002155,2024-11-27 18:45:34,False,4,Received the command for stopstate,INFO
+2024004,2000.0,un0000000000002155,2024-11-27 23:31:51,False,4,Received the command for initializationstate,INFO
+2024004,4043.0,un0000000000002155,2024-11-27 23:33:17,False,4,"MEMBRANE DIRECT INTEGRITY (DIT) TEST -  Complete DIT, If The Maximum Allowed Time Without A DIT Has Been Exceeded",INFO
+2024004,2000.0,un0000000000002155,2024-11-28 00:09:07,False,4,Received the command for initializationstate,INFO
+2024004,4046.0,un0000000000002155,2024-11-28 00:10:24,False,4,MEMBRANE DIRECT INTEGRITY (DIT) TEST - RETURN To Membrane Direct Integrity Testing (DIT) If LAST DIT Was Interrupted/Was Not Completed In Its Entirety,INFO
+2024004,4027.0,un0000000000002155,2024-11-28 00:20:05,False,4,STOP Membrane Direct Integrity Test Feed Pressurization - Transition To Wait State If DIT Target Test Hold Pressure Could Not Be Reached,INFO
+2024004,4027.0,un0000000000002155,2024-11-28 00:20:05,False,4,STOP Membrane Direct Integrity Test Feed Pressurization - Transition To Wait State If DIT Target Test Hold Pressure Could Not Be Reached,INFO
+2024004,4033.0,un0000000000002155,2024-11-28 00:21:13,False,4,GENERAL SYSTEM - FILL Membrane Feed & Filtrate Sides With Water,INFO
+2024004,4046.0,un0000000000002155,2024-11-28 00:28:00,False,4,MEMBRANE DIRECT INTEGRITY (DIT) TEST - RETURN To Membrane Direct Integrity Testing (DIT) If LAST DIT Was Interrupted/Was Not Completed In Its Entirety,INFO
+2024004,4027.0,un0000000000002155,2024-11-28 00:37:44,False,4,STOP Membrane Direct Integrity Test Feed Pressurization - Transition To Wait State If DIT Target Test Hold Pressure Could Not Be Reached,INFO
+2024004,4027.0,un0000000000002155,2024-11-28 00:37:44,False,4,STOP Membrane Direct Integrity Test Feed Pressurization - Transition To Wait State If DIT Target Test Hold Pressure Could Not Be Reached,INFO
+2024004,4033.0,un0000000000002155,2024-11-28 00:38:52,False,4,GENERAL SYSTEM - FILL Membrane Feed & Filtrate Sides With Water,INFO
+2024004,4046.0,un0000000000002155,2024-11-28 00:44:39,False,4,MEMBRANE DIRECT INTEGRITY (DIT) TEST - RETURN To Membrane Direct Integrity Testing (DIT) If LAST DIT Was Interrupted/Was Not Completed In Its Entirety,INFO
+2024004,4027.0,un0000000000002155,2024-11-28 00:54:08,False,4,STOP Membrane Direct Integrity Test Feed Pressurization - Transition To Wait State If DIT Target Test Hold Pressure Could Not Be Reached,INFO
+2024004,4027.0,un0000000000002155,2024-11-28 00:54:08,False,4,STOP Membrane Direct Integrity Test Feed Pressurization - Transition To Wait State If DIT Target Test Hold Pressure Could Not Be Reached,INFO
+2024004,4033.0,un0000000000002155,2024-11-28 00:55:16,False,4,GENERAL SYSTEM - FILL Membrane Feed & Filtrate Sides With Water,INFO
+2024004,4046.0,un0000000000002155,2024-11-28 01:01:13,False,4,MEMBRANE DIRECT INTEGRITY (DIT) TEST - RETURN To Membrane Direct Integrity Testing (DIT) If LAST DIT Was Interrupted/Was Not Completed In Its Entirety,INFO
+2024004,4027.0,un0000000000002155,2024-11-28 01:10:42,False,4,STOP Membrane Direct Integrity Test Feed Pressurization - Transition To Wait State If DIT Target Test Hold Pressure Could Not Be Reached,INFO
+2024004,4027.0,un0000000000002155,2024-11-28 01:10:42,False,4,STOP Membrane Direct Integrity Test Feed Pressurization - Transition To Wait State If DIT Target Test Hold Pressure Could Not Be Reached,INFO
+2024004,4033.0,un0000000000002155,2024-11-28 01:11:51,False,4,GENERAL SYSTEM - FILL Membrane Feed & Filtrate Sides With Water,INFO
+2024004,4046.0,un0000000000002155,2024-11-28 01:17:44,False,4,MEMBRANE DIRECT INTEGRITY (DIT) TEST - RETURN To Membrane Direct Integrity Testing (DIT) If LAST DIT Was Interrupted/Was Not Completed In Its Entirety,INFO
+2024004,4054.0,un0000000000002155,2024-11-28 01:37:56,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,,un0000000000002155,2024-11-28 20:08:52,False,4,Received the command for stopstate,INFO
+2024004,2000.0,un0000000000002155,2024-11-28 20:14:49,False,4,Received the command for initializationstate,INFO
+2024004,4054.0,un0000000000002155,2024-11-28 20:16:11,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,,un0000000000002155,2024-11-28 22:10:30,False,4,Received the command for stopstate,INFO
+2024004,2000.0,un0000000000002155,2024-11-28 22:18:53,False,4,Received the command for initializationstate,INFO
+2024004,4054.0,un0000000000002155,2024-11-28 22:20:15,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,4061.0,un0000000000002155,2024-11-28 22:55:37,False,4,CLEAN IN PLACE TRIGGER - Transition to Membrane Air Scour State - IF Cleaning In-Place Cycle Trigger Mode Is Set To TIME,INFO
+2024004,4061.0,un0000000000002155,2024-11-28 22:56:06,False,4,CLEAN IN PLACE TRIGGER - Transition to Membrane Air Scour State - IF Cleaning In-Place Cycle Trigger Mode Is Set To TIME,INFO
+2024004,4037.0,un0000000000002155,2024-11-28 23:09:00,False,4,"MEMBRANE CLEANING - TEST Membrane Flux Profile, Post Membrane Air Scouring And/Or Membrane Maintenance Clean",INFO
+2024004,4050.0,un0000000000002155,2024-11-28 23:14:02,False,4,STOP Membrane Flux Profile Test - Test PASSED,INFO
+2024004,4054.0,un0000000000002155,2024-11-28 23:15:15,False,4,AUTOMATIC TRANSITION - Production State - Continue Potable Water Production,INFO
+2024004,4062.0,un0000000000002155,2024-11-28 23:29:04,False,4,CLEAN IN PLACE TRIGGER - Transition to Pre-Filter Flush Clean State - IF Cleaning In-Place Cycle Trigger Mode Is Set To TIME,INFO
+2024004,4062.0,un0000000000002155,2024-11-28 23:29:33,False,4,CLEAN IN PLACE TRIGGER - Transition to Pre-Filter Flush Clean State - IF Cleaning In-Place Cycle Trigger Mode Is Set To TIME,INFO
+2024004,4041.0,un0000000000002155,2024-11-28 23:39:20,False,4,AUTOMATIC TRANSITION - Production State,INFO
+2024004,2000.0,un0000000000002155,2024-11-29 01:12:13,False,4,Received the command for initializationstate,INFO
+2024004,2000.0,un0000000000002155,2024-11-29 01:12:43,False,4,Received the command for initializationstate,INFO
+2024004,4041.0,un0000000000002155,2024-11-29 01:13:28,False,4,AUTOMATIC TRANSITION - Production State,INFO
+2024004,,un0000000000002155,2024-11-29 01:25:28,False,4,Received the command for stopstate,INFO
+2024004,2000.0,un0000000000002155,2024-11-29 01:50:20,False,4,Received the command for initializationstate,INFO
+2024004,4043.0,un0000000000002155,2024-11-29 01:51:42,False,4,"MEMBRANE DIRECT INTEGRITY (DIT) TEST -  Complete DIT, If The Maximum Allowed Time Without A DIT Has Been Exceeded",INFO
+2024004,4041.0,un0000000000002155,2024-11-29 02:12:06,False,4,AUTOMATIC TRANSITION - Production State,INFO
+2024004,5002.0,un0000000000002155,2024-11-29 02:16:49,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - INCREASE Water Pump Speed If Water Flowrate is LOW,INFO
+2024004,5002.0,un0000000000002155,2024-11-29 02:17:00,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - INCREASE Water Pump Speed If Water Flowrate is LOW,INFO
+2024004,5002.0,un0000000000002155,2024-11-29 02:17:10,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - INCREASE Water Pump Speed If Water Flowrate is LOW,INFO
+2024004,5002.0,un0000000000002155,2024-11-29 02:17:20,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - INCREASE Water Pump Speed If Water Flowrate is LOW,INFO
+2024004,5002.0,un0000000000002155,2024-11-29 02:17:31,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - INCREASE Water Pump Speed If Water Flowrate is LOW,INFO
+2024004,,un0000000000002155,2024-11-29 02:22:33,False,4,Received the command for stopstate,INFO
+2024004,4041.0,un0000000000002155,2024-11-29 02:25:40,False,4,AUTOMATIC TRANSITION - Production State,INFO
+2024004,5002.0,un0000000000002155,2024-11-29 02:30:14,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - INCREASE Water Pump Speed If Water Flowrate is LOW,INFO
+2024004,5002.0,un0000000000002155,2024-11-29 02:30:24,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - INCREASE Water Pump Speed If Water Flowrate is LOW,INFO
+2024004,5002.0,un0000000000002155,2024-11-29 02:30:35,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - INCREASE Water Pump Speed If Water Flowrate is LOW,INFO
+2024004,5002.0,un0000000000002155,2024-11-29 02:30:44,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - INCREASE Water Pump Speed If Water Flowrate is LOW,INFO
+2024004,5002.0,un0000000000002155,2024-11-29 02:30:55,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - INCREASE Water Pump Speed If Water Flowrate is LOW,INFO
+2024004,5001.0,un0000000000002155,2024-11-29 02:31:06,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - REDUCE Water Pump Speed If Water Flowrate is HIGH or UV Dose Can NOT Be Achieved,INFO
+2024004,5001.0,un0000000000002155,2024-11-29 02:31:15,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - REDUCE Water Pump Speed If Water Flowrate is HIGH or UV Dose Can NOT Be Achieved,INFO
+2024004,5001.0,un0000000000002155,2024-11-29 02:31:26,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - REDUCE Water Pump Speed If Water Flowrate is HIGH or UV Dose Can NOT Be Achieved,INFO
+2024004,5002.0,un0000000000002155,2024-11-29 02:31:37,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - INCREASE Water Pump Speed If Water Flowrate is LOW,INFO
+2024004,5001.0,un0000000000002155,2024-11-29 02:31:47,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - REDUCE Water Pump Speed If Water Flowrate is HIGH or UV Dose Can NOT Be Achieved,INFO
+2024004,5002.0,un0000000000002155,2024-11-29 02:31:57,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - INCREASE Water Pump Speed If Water Flowrate is LOW,INFO
+2024004,5001.0,un0000000000002155,2024-11-29 02:32:09,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - REDUCE Water Pump Speed If Water Flowrate is HIGH or UV Dose Can NOT Be Achieved,INFO
+2024004,5002.0,un0000000000002155,2024-11-29 02:32:18,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - INCREASE Water Pump Speed If Water Flowrate is LOW,INFO
+2024004,5001.0,un0000000000002155,2024-11-29 02:32:28,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - REDUCE Water Pump Speed If Water Flowrate is HIGH or UV Dose Can NOT Be Achieved,INFO
+2024004,5002.0,un0000000000002155,2024-11-29 02:32:40,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - INCREASE Water Pump Speed If Water Flowrate is LOW,INFO
+2024004,2000.0,un0000000000002155,2024-11-29 02:41:02,False,4,Received the command for initializationstate,INFO
+2024004,4041.0,un0000000000002155,2024-11-29 02:42:24,False,4,AUTOMATIC TRANSITION - Production State,INFO
+2024004,5002.0,un0000000000002155,2024-11-29 02:47:17,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - INCREASE Water Pump Speed If Water Flowrate is LOW,INFO
+2024004,5002.0,un0000000000002155,2024-11-29 02:47:37,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - INCREASE Water Pump Speed If Water Flowrate is LOW,INFO
+2024004,5001.0,un0000000000002155,2024-11-29 02:47:52,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - REDUCE Water Pump Speed If Water Flowrate is HIGH or UV Dose Can NOT Be Achieved,INFO
+2024004,5001.0,un0000000000002155,2024-11-29 02:48:08,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - REDUCE Water Pump Speed If Water Flowrate is HIGH or UV Dose Can NOT Be Achieved,INFO
+2024004,5002.0,un0000000000002155,2024-11-29 02:48:22,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - INCREASE Water Pump Speed If Water Flowrate is LOW,INFO
+2024004,5002.0,un0000000000002155,2024-11-29 02:48:39,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - INCREASE Water Pump Speed If Water Flowrate is LOW,INFO
+2024004,5002.0,un0000000000002155,2024-11-29 02:48:52,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - INCREASE Water Pump Speed If Water Flowrate is LOW,INFO
+2024004,5001.0,un0000000000002155,2024-11-29 02:49:10,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - REDUCE Water Pump Speed If Water Flowrate is HIGH or UV Dose Can NOT Be Achieved,INFO
+2024004,5001.0,un0000000000002155,2024-11-29 02:49:23,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - REDUCE Water Pump Speed If Water Flowrate is HIGH or UV Dose Can NOT Be Achieved,INFO
+2024004,5002.0,un0000000000002155,2024-11-29 02:49:41,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - INCREASE Water Pump Speed If Water Flowrate is LOW,INFO
+2024004,5002.0,un0000000000002155,2024-11-29 02:50:02,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - INCREASE Water Pump Speed If Water Flowrate is LOW,INFO
+2024004,5001.0,un0000000000002155,2024-11-29 02:50:17,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - REDUCE Water Pump Speed If Water Flowrate is HIGH or UV Dose Can NOT Be Achieved,INFO
+2024004,5001.0,un0000000000002155,2024-11-29 02:50:33,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - REDUCE Water Pump Speed If Water Flowrate is HIGH or UV Dose Can NOT Be Achieved,INFO
+2024004,5001.0,un0000000000002155,2024-11-29 02:50:48,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - REDUCE Water Pump Speed If Water Flowrate is HIGH or UV Dose Can NOT Be Achieved,INFO
+2024004,5002.0,un0000000000002155,2024-11-29 02:51:05,False,4,WATER PUMP SPEED CONTROL - CALCULATE Water Pump Speed - INCREASE Water Pump Speed If Water Flowrate is LOW,INFO
+2024004,,un0000000000002155,2024-11-29 02:51:15,False,4,Received the command for stopstate,INFO
+2024004,4041.0,un0000000000002155,2024-11-29 02:54:23,False,4,AUTOMATIC TRANSITION - Production State,INFO
+2024004,,un0000000000002155,2024-11-29 04:27:38,False,4,Received the command for stopstate,INFO
