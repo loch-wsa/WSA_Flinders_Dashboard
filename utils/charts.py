@@ -3,117 +3,10 @@ import pandas as pd
 import numpy as np
 import streamlit as st
 
-def get_dynamic_range(data_df, als_lookup, week_cols):
-    """Calculate dynamic range for a parameter"""
-    param_data = data_df[data_df['ALS Lookup'] == als_lookup]
-    values = []
-    
-    for col in week_cols:
-        try:
-            val = param_data[col].iloc[0]
-            if pd.notna(val) and val != 'N/R':
-                if isinstance(val, str):
-                    if val.startswith('<'):
-                        val = float(val.replace('<', ''))
-                    elif 'LINT' in val:
-                        val = float(val.split()[0].replace('<', ''))
-                    else:
-                        val = float(val)
-                if val > 0:
-                    values.append(val)
-        except (IndexError, ValueError):
-            continue
-    
-    if values:
-        max_val = max(values) * 1.1  # 10% greater than the worst data point
-        return 0, max_val
-    return 0, 1
-
-def create_hover_text(param_name, value, min_val, max_val, unit=""):
-    """Create hover text for a parameter with unit"""
-    if pd.isna(value) or value == 'N/R' or str(value).strip() == '':
-        return f"{param_name}: No data available"
-        
-    try:
-        if isinstance(value, str):
-            if value.startswith('<'):
-                value = float(value.replace('<', ''))
-            elif 'LINT' in value:
-                value = float(value.split()[0].replace('<', ''))
-            else:
-                value = float(value)
-                
-        if str(param_name).upper() == 'PH':
-            diff_from_neutral = abs(value - 7.0)
-            max_deviation = max(abs(max_val - 7), abs(min_val - 7))
-            return (
-                f"pH: {value:.2f}<br>" +
-                f"Difference from neutral: ±{diff_from_neutral:.2f}<br>" +
-                f"Max allowed deviation: ±{max_deviation:.2f}"
-            )
-        else:
-            unit_text = f" {unit}" if unit else ""
-            return (
-                f"{param_name}<br>" +
-                f"Value: {value:.2f}{unit_text}<br>" +
-                f"Range: {min_val:.2f} - {max_val:.2f}{unit_text}"
-            )
-    except (ValueError, TypeError):
-        return f"{param_name}: Invalid value"
-
-def create_parameter_table(week_num, als_lookups, data_df, ranges_df):
-    """Create a formatted parameter table with units"""
-    week_col = f'Week {week_num}'
-    
-    # Filter data and ranges
-    data_filtered = data_df[data_df['ALS Lookup'].isin(als_lookups)].copy()
-    ranges_filtered = ranges_df[ranges_df['ALS Lookup'].isin(als_lookups)].copy()
-    
-    # Create combined display dataframe
-    df_display = pd.merge(
-        data_filtered[['ALS Lookup', week_col]],
-        ranges_filtered[['ALS Lookup', 'Parameter', 'Min', 'Max', 'Unit']],
-        on='ALS Lookup',
-        how='left'
-    )
-    
-    # Format display
-    df_display = df_display.rename(columns={week_col: 'Current Value'})
-    
-    # Add units to ranges
-    df_display['Range'] = df_display.apply(
-        lambda x: f"{x['Min']} - {x['Max']}{' ' + x['Unit'] if pd.notna(x['Unit']) else ''}", 
-        axis=1
-    )
-    
-    # Add units to current values (except for pH)
-    df_display['Current Value'] = df_display.apply(
-        lambda x: (f"{x['Current Value']}{' ' + x['Unit'] if pd.notna(x['Unit']) and x['Parameter'] != 'PH' else ''}"
-                  if pd.notna(x['Current Value']) else x['Current Value']), 
-        axis=1
-    )
-    
-    try:
-        # Handle pH difference if present
-        ph_params = df_display[df_display['Parameter'].str.upper() == 'PH'] if 'Parameter' in df_display.columns else pd.DataFrame()
-        if not ph_params.empty:
-            ph_mask = df_display['Parameter'].str.upper() == 'PH'
-            df_display.loc[ph_mask, 'pH Difference'] = df_display.loc[ph_mask, 'Current Value'].apply(
-                lambda x: abs(float(str(x).split()[0]) - 7.0) if pd.notna(x) and x != 'N/R' else None
-            )
-            return df_display[['Parameter', 'Current Value', 'pH Difference', 'Range']].set_index('Parameter')
-        
-        return df_display[['Parameter', 'Current Value', 'Range']].set_index('Parameter')
-    except Exception as e:
-        print(f"Error in create_parameter_table: {str(e)}")
-        # Return a basic dataframe if there's an error
-        return pd.DataFrame({
-            'Current Value': [],
-            'Range': []
-        })
-
 def normalize_parameter(value, param_name, min_val, max_val):
-    """Normalize parameter values with special handling for pH"""
+    """
+    Normalize parameter values with special handling for pH and UVT
+    """
     try:
         # Convert string values like '<0.1' to floats
         if isinstance(value, str):
@@ -130,11 +23,22 @@ def normalize_parameter(value, param_name, min_val, max_val):
         min_val = float(min_val) if pd.notna(min_val) else 0
         max_val = float(max_val) if pd.notna(max_val) else 1
         
-        if str(param_name).upper() == 'PH':
-            # For pH, calculate difference from neutral (7)
-            diff_from_neutral = abs(value - 7.0)
-            max_deviation = max(abs(max_val - 7), abs(min_val - 7))
-            return diff_from_neutral / max_deviation if max_deviation != 0 else 0
+        param_upper = str(param_name).upper()
+        
+        if param_upper == 'PH':
+            # For pH, calculate difference from 7.5 (optimal)
+            optimal_ph = 7.5
+            diff_from_optimal = abs(value - optimal_ph)
+            max_deviation = max(abs(max_val - optimal_ph), abs(min_val - optimal_ph))
+            return diff_from_optimal / max_deviation if max_deviation != 0 else 0
+        elif 'UVT' in param_upper:
+            # For UVT, invert the normalization since higher is better
+            value_range = max_val - min_val
+            if value_range == 0:
+                return 0
+            # Invert the normalization so 100% is at center (0) and 50% is at edge (1)
+            normalized = (value - min_val) / value_range
+            return 1 - normalized
         else:
             # For all other parameters, use standard normalization
             value_range = max_val - min_val
@@ -171,13 +75,12 @@ def format_parameter_label(param_name, value, max_val, min_val, unit=""):
         value_format = '.4f' if value <= 1 else '.1f'
         max_val_format = '.4f' if max_val <= 1 else '.1f'
         
-        # Format the base label with current value and max value
-        label = f"{param_name} {value:{value_format}} ({min_val:{max_val_format}} - {max_val:{max_val_format}}) {unit_text}"
+        # Check if value is out of range and add warning icon if needed
+        warning_icon = "⚠️ " if (value > max_val or value < min_val) else ""
         
-        # Add warning indicator if value exceeds max
-        if value > max_val:
-            label = "⚠️ " + label
-            
+        # Format the base label with current value and max value
+        label = f"{warning_icon}{param_name} {value:{value_format}} ({min_val:{max_val_format}} - {max_val:{max_val_format}}) {unit_text}"
+        
         return label
         
     except (ValueError, TypeError):
@@ -198,6 +101,8 @@ def create_microbial_display(week_num, als_lookups, data_df, ranges_df):
         als_lookup = range_row['ALS Lookup']
         param_name = range_row['Parameter']
         unit = range_row['Unit'] if pd.notna(range_row['Unit']) else ''
+        max_val = float(range_row['Max']) if pd.notna(range_row['Max']) else None
+        min_val = float(range_row['Min']) if pd.notna(range_row['Min']) else None
         
         param_data = micro_data[micro_data['ALS Lookup'] == als_lookup]
         if not param_data.empty:
@@ -226,8 +131,12 @@ def create_microbial_display(week_num, als_lookups, data_df, ranges_df):
                     reduction = ((initial_value - current_value) / initial_value * 100 
                                if initial_value != 0 else 0)
                     
+                    # Add warning icon if value is out of range
+                    warning_icon = "⚠️ " if (max_val is not None and min_val is not None and 
+                                           (current_value > max_val or current_value < min_val)) else ""
+                    
                     st.metric(
-                        label=f"{param_name} ({unit})",
+                        label=f"{warning_icon}{param_name} ({unit})",
                         value=f"{current_value:,.1f}",
                         delta=f"{reduction:,.1f}% reduction" if reduction > 0 else "No reduction",
                         delta_color="normal" if reduction > 0 else "off"
@@ -248,23 +157,7 @@ def create_microbial_display(week_num, als_lookups, data_df, ranges_df):
 def create_radar_chart(week_num, als_lookups, data_df, treated_data, ranges_df, treated_ranges, chart_type='comparison', category=None):
     """
     Create a radar chart based on the specified type (influent, treated, or comparison)
-    
-    Parameters:
-    - week_num: Current week number
-    - als_lookups: List of ALS lookup values
-    - data_df: Main data DataFrame (influent data when chart_type is 'influent' or 'comparison')
-    - treated_data: Treated water data DataFrame
-    - ranges_df: Main ranges DataFrame
-    - treated_ranges: Treated water ranges DataFrame
-    - chart_type: Type of chart ('influent', 'treated', or 'comparison')
-    - category: Category name for the chart title
-    
-    Returns:
-    - plotly figure object, error message (if any)
     """
-    import plotly.graph_objects as go
-    import pandas as pd
-    
     week_cols = [col for col in data_df.columns if col.startswith('Week')]
     week_col = f'Week {week_num}'
     
@@ -274,6 +167,32 @@ def create_radar_chart(week_num, als_lookups, data_df, treated_data, ranges_df, 
     treated_filtered = treated_data[treated_data['ALS Lookup'].isin(als_lookups)].copy()
     treated_ranges_filtered = treated_ranges[treated_ranges['ALS Lookup'].isin(als_lookups)].copy()
     
+    def create_hover_text(param_name, value, min_val, max_val, unit):
+        """Create hover text with special handling for pH and UVT"""
+        if value is None:
+            return f"{param_name}: No data available"
+            
+        value_format = '.4f' if value <= 1 else '.1f'
+        unit_text = f" {unit}" if unit else ""
+        
+        param_upper = str(param_name).upper()
+        
+        # Add special notes for pH and UVT
+        special_note = ""
+        if param_upper == 'PH':
+            special_note = "<br>Note: Optimal pH is 7.5"
+        elif 'UVT' in param_upper:
+            special_note = "<br>Note: Higher UVT % is better"
+            
+        hover_text = (
+            f"{param_name}<br>" +
+            f"Value: {value:{value_format}}{unit_text}<br>" +
+            f"Range: {min_val:.2f} - {max_val:.2f}{unit_text}" +
+            special_note
+        )
+        
+        return hover_text
+        
     def process_parameter_data(param_data, param_ranges):
         """Process data for a single dataset"""
         values = []
@@ -318,6 +237,9 @@ def create_radar_chart(week_num, als_lookups, data_df, treated_data, ranges_df, 
                 if unit:
                     range_text += f" {unit}"
                 
+                # Check if value is out of range and add warning icon if needed
+                warning_icon = "⚠️ " if (value is not None and (value > max_val or value < min_val)) else ""
+                
                 # Create label based on chart type and availability of comparison data
                 if chart_type == 'comparison' and 'raw_treated' in locals():
                     # Calculate improvement percentage for comparison charts
@@ -325,18 +247,18 @@ def create_radar_chart(week_num, als_lookups, data_df, treated_data, ranges_df, 
                     if value is not None and treated_val is not None and value != 0:
                         improvement = ((value - treated_val) / value) * 100
                         label = [
-                            f"{param_name}",
+                            f"{warning_icon}{param_name}",
                             f"{improvement:.1f}% improvement",
                             f"{value_text} {range_text}"
                         ]
                     else:
                         label = [
-                            f"{param_name}",
+                            f"{warning_icon}{param_name}",
                             f"{value_text} {range_text}"
                         ]
                 else:
                     label = [
-                        f"{param_name}",
+                        f"{warning_icon}{param_name}",
                         f"{value_text} {range_text}"
                     ]
                 
@@ -362,10 +284,9 @@ def create_radar_chart(week_num, als_lookups, data_df, treated_data, ranges_df, 
                 norm_val = normalize_parameter(value, param_name, min_val, max_val)
                 normalized_values.append(norm_val)
                 
-                # Create hover text
-                # Create custom hover text
+                # Create hover text with warning icon if needed
                 if value is None:
-                    hover_text = f"{param_name}: No data available"
+                    hover_text = f"{warning_icon}{param_name}: No data available"
                 else:
                     value_format = '.4f' if value <= 1 else '.1f'
                     unit_text = f" {unit}" if unit else ""
@@ -375,7 +296,7 @@ def create_radar_chart(week_num, als_lookups, data_df, treated_data, ranges_df, 
                         if treated_val is not None and value != 0:
                             improvement = ((value - treated_val) / value) * 100
                             hover_text = (
-                                f"{param_name}<br>" +
+                                f"{warning_icon}{param_name}<br>" +
                                 f"Improvement: {improvement:.1f}%<br>" +
                                 f"Influent: {value:{value_format}}{unit_text}<br>" +
                                 f"Treated: {treated_val:{value_format}}{unit_text}<br>" +
@@ -383,13 +304,13 @@ def create_radar_chart(week_num, als_lookups, data_df, treated_data, ranges_df, 
                             )
                         else:
                             hover_text = (
-                                f"{param_name}<br>" +
+                                f"{warning_icon}{param_name}<br>" +
                                 f"Value: {value:{value_format}}{unit_text}<br>" +
                                 f"Range: {min_val:.2f} - {max_val:.2f}{unit_text}"
                             )
                     else:
                         hover_text = (
-                            f"{param_name}<br>" +
+                            f"{warning_icon}{param_name}<br>" +
                             f"Value: {value:{value_format}}{unit_text}<br>" +
                             f"Range: {min_val:.2f} - {max_val:.2f}{unit_text}"
                         )
