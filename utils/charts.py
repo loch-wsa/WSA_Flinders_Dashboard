@@ -145,9 +145,9 @@ def normalize_parameter(value, param_name, min_val, max_val):
     except (ValueError, TypeError):
         return 0
 
-def format_parameter_label(param_name, value, max_val, unit=""):
-    """Format parameter label with units and status indicators"""
+def format_parameter_label(param_name, value, max_val, min_val, unit=""):
     try:
+        # Handle string values like '<0.1'
         if isinstance(value, str):
             if value.startswith('<'):
                 value = float(value.replace('<', ''))
@@ -163,10 +163,16 @@ def format_parameter_label(param_name, value, max_val, unit=""):
 
         value = float(value)
         max_val = float(max_val)
+        min_val = float(min_val)
+        
         unit_text = f" {unit}" if unit else ""
         
-        # Format the base label with value and unit
-        label = f"{param_name} ({value:.1f}{unit_text})"
+        # Determine decimal places based on value
+        value_format = '.4f' if value <= 1 else '.1f'
+        max_val_format = '.4f' if max_val <= 1 else '.1f'
+        
+        # Format the base label with current value and max value
+        label = f"{param_name} {value:{value_format}} ({min_val:{max_val_format}} - {max_val:{max_val_format}}) {unit_text}"
         
         # Add warning indicator if value exceeds max
         if value > max_val:
@@ -239,94 +245,198 @@ def create_microbial_display(week_num, als_lookups, data_df, ranges_df):
                     delta=None
                 )
 
-def create_category_radar_chart(week_num, als_lookups, data_df, treated_data, ranges_df, treated_ranges, data_type='influent', category=None):
-    """Create a radar chart for a specific category of parameters"""
+def create_radar_chart(week_num, als_lookups, data_df, treated_data, ranges_df, treated_ranges, chart_type='comparison', category=None):
+    """
+    Create a radar chart based on the specified type (influent, treated, or comparison)
+    
+    Parameters:
+    - week_num: Current week number
+    - als_lookups: List of ALS lookup values
+    - data_df: Main data DataFrame (influent data when chart_type is 'influent' or 'comparison')
+    - treated_data: Treated water data DataFrame
+    - ranges_df: Main ranges DataFrame
+    - treated_ranges: Treated water ranges DataFrame
+    - chart_type: Type of chart ('influent', 'treated', or 'comparison')
+    - category: Category name for the chart title
+    
+    Returns:
+    - plotly figure object, error message (if any)
+    """
+    import plotly.graph_objects as go
+    import pandas as pd
+    
     week_cols = [col for col in data_df.columns if col.startswith('Week')]
     week_col = f'Week {week_num}'
     
     # Filter data and ranges
     ranges_filtered = ranges_df[ranges_df['ALS Lookup'].isin(als_lookups)].copy()
     data_filtered = data_df[data_df['ALS Lookup'].isin(als_lookups)].copy()
+    treated_filtered = treated_data[treated_data['ALS Lookup'].isin(als_lookups)].copy()
+    treated_ranges_filtered = treated_ranges[treated_ranges['ALS Lookup'].isin(als_lookups)].copy()
     
-    # Get values and prepare chart data
-    values = []
-    normalized_values = []
-    hover_texts = []
-    formatted_param_names = []
-    
-    for _, range_row in ranges_filtered.iterrows():
-        als_lookup = range_row['ALS Lookup']
-        param_name = range_row['Parameter']
+    def process_parameter_data(param_data, param_ranges):
+        """Process data for a single dataset"""
+        values = []
+        normalized_values = []
+        labels = []
+        hover_texts = []
         
-        # Get parameter data
-        param_data = data_filtered[data_filtered['ALS Lookup'] == als_lookup]
-        
-        if not param_data.empty and week_col in param_data.columns:
-            value = param_data[week_col].iloc[0]
-            min_val = float(range_row['Min']) if not pd.isna(range_row['Min']) else 0
-            max_val = float(range_row['Max']) if not pd.isna(range_row['Max']) else 1
-            unit = range_row['Unit'] if 'Unit' in range_row and pd.notna(range_row['Unit']) else ""
+        for _, range_row in param_ranges.iterrows():
+            als_lookup = range_row['ALS Lookup']
+            param_name = range_row['Parameter']
+            unit = range_row['Unit'] if pd.notna(range_row['Unit']) else ""
             
-            # Format parameter name and normalize value
-            formatted_name = format_parameter_label(param_name, value, max_val, unit)
-            formatted_param_names.append(formatted_name)
-            
-            norm_val = normalize_parameter(value, param_name, min_val, max_val)
-            normalized_values.append(norm_val)
-            
-            hover_text = create_hover_text(param_name, value, min_val, max_val, unit)
-            hover_texts.append(hover_text)
-    
-    # Handle shape closure based on number of parameters
-    if len(formatted_param_names) == 1:
-        # For single parameter, create a circle by adding more points
-        val = normalized_values[0]
-        name = formatted_param_names[0]
-        hover = hover_texts[0]
+            # Get parameter data
+            row_data = param_data[param_data['ALS Lookup'] == als_lookup]
+            if not row_data.empty and week_col in row_data.columns:
+                value = row_data[week_col].iloc[0]
+                min_val = float(range_row['Min']) if pd.notna(range_row['Min']) else 0
+                max_val = float(range_row['Max']) if pd.notna(range_row['Max']) else 1
+                
+                # Format value with appropriate decimal places
+                if value is not None:
+                    if isinstance(value, str):
+                        if value.startswith('<'):
+                            value = float(value.replace('<', ''))
+                        elif value == 'N/R':
+                            value = None
+                        elif 'LINT' in value:
+                            value = float(value.split()[0].replace('<', ''))
+                        else:
+                            value = float(value)
+                    
+                    if value is not None:
+                        value_format = '.4f' if value <= 1 else '.1f'
+                        value_text = f"{value:{value_format}}"
+                    else:
+                        value_text = "N/A"
+                else:
+                    value_text = "N/A"
+                
+                # Create range text with unit
+                range_text = f"({min_val:.2f} - {max_val:.2f})"
+                if unit:
+                    range_text += f" {unit}"
+                
+                # Create label based on chart type and availability of comparison data
+                if chart_type == 'comparison' and 'raw_treated' in locals():
+                    # Calculate improvement percentage for comparison charts
+                    treated_val = raw_treated[len(values)] if raw_treated else None
+                    if value is not None and treated_val is not None and value != 0:
+                        improvement = ((value - treated_val) / value) * 100
+                        label = [
+                            f"{param_name}",
+                            f"{improvement:.1f}% improvement",
+                            f"{value_text} {range_text}"
+                        ]
+                    else:
+                        label = [
+                            f"{param_name}",
+                            f"{value_text} {range_text}"
+                        ]
+                else:
+                    label = [
+                        f"{param_name}",
+                        f"{value_text} {range_text}"
+                    ]
+                
+                # Join with HTML line breaks for proper multi-line display
+                label_text = '<br>'.join(label)
+                labels.append(label_text)
+                
+                # Process and normalize value
+                try:
+                    if isinstance(value, str):
+                        if value.startswith('<'):
+                            value = float(value.replace('<', ''))
+                        elif value == 'N/R':
+                            value = None
+                        elif 'LINT' in value:
+                            value = float(value.split()[0].replace('<', ''))
+                        else:
+                            value = float(value)
+                except (ValueError, TypeError):
+                    value = None
+                
+                values.append(value)
+                norm_val = normalize_parameter(value, param_name, min_val, max_val)
+                normalized_values.append(norm_val)
+                
+                # Create hover text
+                # Create custom hover text
+                if value is None:
+                    hover_text = f"{param_name}: No data available"
+                else:
+                    value_format = '.4f' if value <= 1 else '.1f'
+                    unit_text = f" {unit}" if unit else ""
+                    
+                    if chart_type == 'comparison' and 'raw_treated' in locals():
+                        treated_val = raw_treated[len(values)] if raw_treated else None
+                        if treated_val is not None and value != 0:
+                            improvement = ((value - treated_val) / value) * 100
+                            hover_text = (
+                                f"{param_name}<br>" +
+                                f"Improvement: {improvement:.1f}%<br>" +
+                                f"Influent: {value:{value_format}}{unit_text}<br>" +
+                                f"Treated: {treated_val:{value_format}}{unit_text}<br>" +
+                                f"Range: {min_val:.2f} - {max_val:.2f}{unit_text}"
+                            )
+                        else:
+                            hover_text = (
+                                f"{param_name}<br>" +
+                                f"Value: {value:{value_format}}{unit_text}<br>" +
+                                f"Range: {min_val:.2f} - {max_val:.2f}{unit_text}"
+                            )
+                    else:
+                        hover_text = (
+                            f"{param_name}<br>" +
+                            f"Value: {value:{value_format}}{unit_text}<br>" +
+                            f"Range: {min_val:.2f} - {max_val:.2f}{unit_text}"
+                        )
+                hover_texts.append(hover_text)
         
-        # Add additional points to create a smooth circle
-        angles = [0, 60, 120, 180, 240, 300, 0]  # Seven points for a smooth circle
-        for angle in angles:
-            normalized_values.append(val)
-            formatted_param_names.append(name)
-            hover_texts.append(hover)
-    elif len(formatted_param_names) == 2:
-        # For two parameters, add intermediate points for smoother curve
-        val1, val2 = normalized_values
-        name1, name2 = formatted_param_names
-        hover1, hover2 = hover_texts
-        
-        # Add intermediate points
-        normalized_values = [val1, val1, val2, val2, val1]
-        formatted_param_names = [name1, name1, name2, name2, name1]
-        hover_texts = [hover1, hover1, hover2, hover2, hover1]
-    else:
-        # For more than two parameters, just close the shape
-        formatted_param_names.append(formatted_param_names[0])
-        normalized_values.append(normalized_values[0])
-        hover_texts.append(hover_texts[0])
+        return labels, normalized_values, hover_texts, values
     
-    # Create figure
+    # Process both datasets
+    influent_labels, influent_values, influent_hovers, raw_influent = process_parameter_data(
+        data_filtered, ranges_filtered
+    )
+    treated_labels, treated_values, treated_hovers, raw_treated = process_parameter_data(
+        treated_filtered, treated_ranges_filtered
+    )
+    
+    # Create the figure
     fig = go.Figure()
     
-    if normalized_values:
-        # Base color for influent/treated water
-        primary_color = '#1E90FF' if data_type == 'treated' else '#8B4513'
-        
+    # Add traces based on chart type
+    if chart_type in ['influent', 'comparison']:
+        # Add influent trace
         fig.add_trace(go.Scatterpolar(
-            r=normalized_values,
-            theta=formatted_param_names,
-            name=category if category else ('Treated Water' if data_type == 'treated' else 'Influent Water'),
+            r=influent_values,
+            theta=influent_labels,
+            name='Influent Water',
             fill='toself',
-            line=dict(
-                color=primary_color,
-                shape='spline',  # Use spline for smooth curves
-                smoothing=1.3    # Adjust smoothing factor for more circular paths
-            ),
+            line=dict(color='#8B4513', shape='spline', smoothing=1.3),
             connectgaps=True,
             hovertemplate="%{text}<br>Quality: %{customdata:.0%}<extra></extra>",
-            customdata=[1 - v for v in normalized_values],
-            text=hover_texts
+            customdata=[1 - v if v is not None else 0 for v in influent_values],
+            text=influent_hovers,
+            opacity=0.6
+        ))
+    
+    if chart_type in ['treated', 'comparison']:
+        # Add treated trace
+        fig.add_trace(go.Scatterpolar(
+            r=treated_values,
+            theta=treated_labels if chart_type == 'treated' else influent_labels,
+            name='Treated Water',
+            fill='toself',
+            line=dict(color='#1E90FF', shape='spline', smoothing=1.3),
+            connectgaps=True,
+            hovertemplate="%{text}<br>Quality: %{customdata:.0%}<extra></extra>",
+            customdata=[1 - v if v is not None else 0 for v in treated_values],
+            text=treated_hovers,
+            opacity=0.8
         ))
     
     # Update layout
@@ -341,153 +451,19 @@ def create_category_radar_chart(week_num, als_lookups, data_df, treated_data, ra
             ),
             angularaxis=dict(
                 direction="clockwise",
-                period=len(formatted_param_names) if formatted_param_names else 1,
-                rotation=90
-            ),
-            bgcolor='rgba(0,0,0,0)'
-        ),
-        showlegend=False,
-        height=400,  # Smaller height for the category charts
-        title=None,  # Remove title as it's shown in the subheader
-        margin=dict(t=20, b=20, l=40, r=40),  # Reduce margins
-        paper_bgcolor='rgba(0,0,0,0)',
-        plot_bgcolor='rgba(0,0,0,0)'
-    )
-    
-    return fig, None
-    week_cols = [col for col in data_df.columns if col.startswith('Week')]
-    week_col = f'Week {week_num}'
-    
-    # Filter data and ranges
-    ranges_filtered = ranges_df[ranges_df['ALS Lookup'].isin(als_lookups)].copy()
-    data_filtered = data_df[data_df['ALS Lookup'].isin(als_lookups)].copy()
-    
-    # Get values and prepare chart data
-    values = []
-    normalized_values = []
-    hover_texts = []
-    formatted_param_names = []
-    
-    for _, range_row in ranges_filtered.iterrows():
-        als_lookup = range_row['ALS Lookup']
-        param_name = range_row['Parameter']
-        
-        # Get parameter data
-        param_data = data_filtered[data_filtered['ALS Lookup'] == als_lookup]
-        
-        if not param_data.empty and week_col in param_data.columns:
-            value = param_data[week_col].iloc[0]
-            min_val = float(range_row['Min']) if not pd.isna(range_row['Min']) else 0
-            max_val = float(range_row['Max']) if not pd.isna(range_row['Max']) else 1
-            unit = range_row['Unit'] if 'Unit' in range_row and pd.notna(range_row['Unit']) else ""
-            
-            # Format parameter name and normalize value
-            formatted_name = format_parameter_label(param_name, value, max_val, unit)
-            formatted_param_names.append(formatted_name)
-            
-            norm_val = normalize_parameter(value, param_name, min_val, max_val)
-            normalized_values.append(norm_val)
-            
-            hover_text = create_hover_text(param_name, value, min_val, max_val, unit)
-            hover_texts.append(hover_text)
-    
-    # Close the shapes if we have data
-    if formatted_param_names:
-        formatted_param_names.append(formatted_param_names[0])
-        normalized_values.append(normalized_values[0])
-        hover_texts.append(hover_texts[0])
-    
-    # Create figure
-    fig = go.Figure()
-    
-    if normalized_values:
-        # Base color for influent/treated water
-        primary_color = '#1E90FF' if data_type == 'treated' else '#8B4513'
-        
-        # Group parameters by category
-        data_by_category = {}
-        for i, (_, range_row) in enumerate(ranges_filtered.iterrows()):
-            category = range_row['Category']
-            if category not in data_by_category:
-                data_by_category[category] = {
-                    'normalized': [],
-                    'params': [],
-                    'hover': []
-                }
-            if i < len(normalized_values)-1:  # Exclude the closing point
-                data_by_category[category]['normalized'].append(normalized_values[i])
-                data_by_category[category]['params'].append(formatted_param_names[i])
-                data_by_category[category]['hover'].append(hover_texts[i])
-        
-        # Define line styles for different categories
-        category_styles = {
-            'Physical': dict(dash='solid'),
-            'Inorganic Compound': dict(dash='dot'),
-            'Organic Compound': dict(dash='dash'),
-            'Metal': dict(dash='longdash'),
-            'Radiological': dict(dash='dashdot'),
-            'Algae Toxins': dict(dash='longdashdot')
-        }
-        
-        # Add traces for each category
-        for category, cat_data in data_by_category.items():
-            if cat_data['normalized']:  # Only add trace if we have data
-                # Add first value at end to close the shape
-                cat_normalized = cat_data['normalized'] + [cat_data['normalized'][0]]
-                cat_params = cat_data['params'] + [cat_data['params'][0]]
-                cat_hover = cat_data['hover'] + [cat_data['hover'][0]]
-                
-                # Get line style for this category
-                line_style = category_styles.get(category, dict(dash='solid'))
-                
-                fig.add_trace(go.Scatterpolar(
-                    r=cat_normalized,
-                    theta=cat_params,
-                    name=category,
-                    line=dict(
-                        color=primary_color,
-                        shape='linear',
-                        **line_style
-                    ),
-                    connectgaps=True,
-                    fill='none',
-                    hovertemplate="%{text}<br>Quality: %{customdata:.0%}<br>Category: " + category + "<extra></extra>",
-                    customdata=[1 - v for v in cat_normalized],
-                    text=cat_hover
-                ))
-    
-    # Update layout
-    fig.update_layout(
-        polar=dict(
-            radialaxis=dict(
-                visible=True,
-                range=[0, 1],
+                period=len(influent_labels),
+                rotation=90,
+                tickangle=0,  # Keep text horizontal
                 tickmode='array',
-                ticktext=['Ideal', 'Good', 'Fair', 'Poor', 'Critical'],
-                tickvals=[0, 0.25, 0.5, 0.75, 1]
-            ),
-            angularaxis=dict(
-                direction="clockwise",
-                period=len(formatted_param_names) if formatted_param_names else 1,
-                rotation=90
+                ticktext=influent_labels,
+                tickfont=dict(size=10),  # Adjust font size
             ),
             bgcolor='rgba(0,0,0,0)'
         ),
         showlegend=True,
-        legend=dict(
-            yanchor="top",
-            y=0,
-            xanchor="left",
-            x=1.2,
-            title=dict(text="Categories")
-        ),
-        height=600,
-        title=dict(
-            text=f"Water Quality Parameters - Week {week_num}",
-            x=0.5,
-            y=0.95,
-            xanchor='center'
-        ),
+        height=500,  # Increased height
+        title=category if category else "",
+        margin=dict(t=50, b=50, l=80, r=80),  # Increased margins
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)'
     )

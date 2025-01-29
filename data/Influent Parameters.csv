@@ -42,7 +42,7 @@ PH,Physical,pH,pH Units,6.5,8.5,Adjustment of pH is not within the treatment int
 TDS_180,Physical,Total Dissolved Solids (TDS),mg/L,N/A,600,Reduction of TDS is not within the treatment intent of the system
 SUS SOLIDS,Physical,Total Suspended Solids (TSS),mg/L,N/A,600,Hydranautics Hydracap Max 40
 TURBIDITY,Physical,Turbidity,NTU,0,300,Hydranautics Hydracap Max 40
-UV TRANS,Physical,UV Transmittance (UVT),%,50,N/A,UV System Hallett 1000P
+UV TRANS,Physical,UV Transmittance (UVT),%,50,100,UV System Hallett 1000P
 ,Physical,Water Temperature,°C,5,40,Hydranautics Hydracap Max 40
 ,Radiological,Radiological Compounds,Bq/L,Varies By Compound,Varies By Compound,Pre-treatment required if above acceptable drinking water levels.
 ,Dysenfection Bi-Products,Dysenfection Bi-Products,mg/L,Varies By Compound,Varies By Compound,

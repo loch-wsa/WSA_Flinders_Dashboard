@@ -8,7 +8,7 @@ root_dir = Path(__file__).parent.parent
 sys.path.append(str(root_dir))
 
 from utils.data_loader import load_all_data
-from utils.charts import create_category_radar_chart
+from utils.charts import create_radar_chart
 from utils.tiles import create_parameter_tiles_grid, create_collapsible_section
 
 # Page config
@@ -84,12 +84,12 @@ def display_category_section(category, data_df, treated_data, ranges_df, treated
         # or if it's the Organic Compound category
         if not params_with_lookup.empty and (len(params_with_lookup) > 1 or category == 'Organic Compound'):
             als_lookups = params_with_lookup['ALS Lookup'].tolist()
-            fig, _ = create_category_radar_chart(
+            fig, _ = create_radar_chart(
                 week_num,
                 als_lookups,
-                data_df,
+                influent_data,
                 treated_data,
-                ranges_df,
+                influent_ranges,
                 treated_ranges,
                 'influent',
                 category
@@ -102,10 +102,16 @@ def display_category_section(category, data_df, treated_data, ranges_df, treated
             params = []
             values = []
             statuses = []
+            ranges_min = []
+            ranges_max = []
+            units = []
             
             # Process all parameters
             for _, row in category_params.iterrows():
                 params.append(row['Parameter'])
+                units.append(row['Unit'] if pd.notna(row['Unit']) else '')
+                ranges_min.append(row['Min'] if pd.notna(row['Min']) else None)
+                ranges_max.append(row['Max'] if pd.notna(row['Max']) else None)
                 
                 if pd.notna(row['ALS Lookup']) and row['ALS Lookup'] != '':
                     # Parameter has ALS Lookup
@@ -119,7 +125,7 @@ def display_category_section(category, data_df, treated_data, ranges_df, treated
                         else:
                             try:
                                 float_value = float(str(value).replace('<', ''))
-                                values.append(f"{float_value:.1f} {row['Unit']}")
+                                values.append(float_value)
                                 
                                 # Check if value is within range
                                 min_val = float(row['Min']) if pd.notna(row['Min']) else None
@@ -141,7 +147,14 @@ def display_category_section(category, data_df, treated_data, ranges_df, treated
                     values.append("Not Tested")
                     statuses.append('untested')
             
-            create_parameter_tiles_grid(params, values, statuses)
+            create_parameter_tiles_grid(
+                parameters=params, 
+                values=values, 
+                statuses=statuses,
+                ranges_min=ranges_min,
+                ranges_max=ranges_max,
+                units=units
+            )
 
 try:
     # Load data
@@ -160,7 +173,7 @@ try:
     # Main content
     st.header('🚱 Influent Water Analysis')
     st.markdown(f"""
-    Analysing raw pond water characteristics for Week {week_num}.  
+    Analysing raw water characteristics for Week {week_num}.  
     The data represents untreated water entering the Brolga system.
     """)
 
