@@ -130,7 +130,7 @@ def load_sequence_files(directory_path="data/sequences"):
     combined_df = pd.concat(dfs, ignore_index=True)
     
     # Convert timestamp to datetime
-    combined_df['timestamp'] = pd.to_datetime(combined_df['timestamp'], dayfirst=False, utc=True)
+    combined_df['timestamp'] = pd.to_datetime(combined_df['timestamp'], format="mixed", dayfirst=False, utc=True)
     
     # Sort by timestamp and remove duplicates
     combined_df = combined_df.sort_values('timestamp')
@@ -211,7 +211,7 @@ def load_csv_directory(directory_path, pattern="*.csv"):
     combined_df = pd.concat(dfs, ignore_index=True)
     
     if 'timestamp' in combined_df.columns:
-        combined_df['timestamp'] = pd.to_datetime(combined_df['timestamp'], dayfirst=False, utc=True)
+        combined_df['timestamp'] = pd.to_datetime(combined_df['timestamp'], format="mixed", dayfirst=False, utc=True)
         melbourne_tz = pytz.timezone('Australia/Melbourne')
         combined_df['timestamp'] = combined_df['timestamp'].dt.tz_convert(melbourne_tz)
         combined_df = combined_df.sort_values('timestamp')
