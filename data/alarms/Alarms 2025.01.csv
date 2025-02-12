@@ -10,3 +10,10 @@ unitserialnumber,code,deviceId,timestamp,manual,type,message,alarm_type
 2024004,3303,un0000000000002155,2025-01-14 03:38:29,False,2,LowLow Threshold breached for UV Chamber Dosage - Ultraviolet Disinfection Chamber for uvm101_dose ,ERROR
 2024004,3220,un0000000000002155,2025-01-14 18:52:20,False,2,HighHigh Threshold breached for Fluid (Air or Water) Pressure Differential - Sediment Pre-Filter 1 for flm101_pressurediff ,ERROR
 2024004,3127,un0000000000002155,2025-01-15 06:42:14,False,2,LowLow Threshold breached for Water Flow Rate - Water Pump Output for ftr102_flowrate ,ERROR
+2024004,3127,un0000000000002155,2025-01-24 00:11:01,False,2,LowLow Threshold breached for Water Flow Rate - Water Pump Output for ftr102_flowrate ,ERROR
+2024004,3127,un0000000000002155,2025-01-24 00:23:40,False,2,LowLow Threshold breached for Water Flow Rate - Water Pump Output for ftr102_flowrate ,ERROR
+2024004,3303,un0000000000002155,2025-01-24 02:06:42,False,2,LowLow Threshold breached for UV Chamber Dosage - Ultraviolet Disinfection Chamber for uvm101_dose ,ERROR
+2024004,3303,un0000000000002155,2025-01-24 03:30:06,False,2,LowLow Threshold breached for UV Chamber Dosage - Ultraviolet Disinfection Chamber for uvm101_dose ,ERROR
+2024004,3146,un0000000000002155,2025-01-25 06:43:32,False,2,HighHigh Threshold breached for Fluid Turbidity - System Water Output for trb102_turbidity ,ERROR
+2024004,3146,un0000000000002155,2025-01-25 23:50:20,False,2,HighHigh Threshold breached for Fluid Turbidity - System Water Output for trb102_turbidity ,ERROR
+2024004,3146,un0000000000002155,2025-01-26 06:30:42,False,2,HighHigh Threshold breached for Fluid Turbidity - System Water Output for trb102_turbidity ,ERROR

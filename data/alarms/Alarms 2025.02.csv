@@ -1,0 +1,6 @@
+unitserialnumber,code,deviceId,timestamp,manual,type,message,alarm_type
+2024004,3010,un0000000000002155,2025-02-02 03:15:16,False,2,"HighHigh Threshold breached for Tank Liquid Volume - Treated Water Reserve For System Cleaning, Internal to Enclosure for tnk102_volume ",ERROR
+2024004,3159,un0000000000002155,2025-02-03 02:48:34,False,2,LowLow Threshold breached for Membrane Temperature Compensated Specific Flux - Ultrafiltration Membrane for flu101_tcsf ,ERROR
+2024004,3127,un0000000000002155,2025-02-03 22:15:35,False,2,LowLow Threshold breached for Water Flow Rate - Water Pump Output for ftr102_flowrate ,ERROR
+2024004,3159,un0000000000002155,2025-02-07 22:13:38,False,2,LowLow Threshold breached for Membrane Temperature Compensated Specific Flux - Ultrafiltration Membrane for flu101_tcsf ,ERROR
+2024004,3127,un0000000000002155,2025-02-09 20:24:34,False,2,LowLow Threshold breached for Water Flow Rate - Water Pump Output for ftr102_flowrate ,ERROR
