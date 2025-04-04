@@ -215,7 +215,7 @@ def create_log_reduction_tile(param_name, influent_value, treated_value):
         # Fallback for any unexpected errors
         return create_parameter_tile(param_name, f"Error: {str(e)}", 'untested')
 
-def create_log_reduction_tiles_grid(parameters, influent_values, treated_values, cols=3):
+def create_log_reduction_tiles_grid(parameters, influent_values, treated_values, cols=3, show_values=False):
     """
     Create a grid of log reduction tiles.
     
@@ -224,6 +224,7 @@ def create_log_reduction_tiles_grid(parameters, influent_values, treated_values,
         influent_values (list): List of influent values
         treated_values (list): List of treated values
         cols (int): Number of columns in the grid
+        show_values (bool): If True, show original values alongside log reduction
     """
     # Create columns
     columns = st.columns(cols)
@@ -233,7 +234,23 @@ def create_log_reduction_tiles_grid(parameters, influent_values, treated_values,
         zip(parameters, influent_values, treated_values)
     ):
         with columns[idx % cols]:
-            create_log_reduction_tile(param, inf_val, treat_val)
+            if show_values:
+                # Format the display values nicely
+                if isinstance(inf_val, (int, float)) and not pd.isna(inf_val):
+                    inf_display = f"{inf_val:.3f}" if inf_val <= 1 else f"{inf_val:.1f}"
+                else:
+                    inf_display = str(inf_val)
+                    
+                if isinstance(treat_val, (int, float)) and not pd.isna(treat_val):
+                    treat_display = f"{treat_val:.3f}" if treat_val <= 1 else f"{treat_val:.1f}"
+                else:
+                    treat_display = str(treat_val)
+                
+                # Create a parameter name with the values included
+                param_with_values = f"{param}\nInfluent: {inf_display} → Treated: {treat_display}"
+                create_log_reduction_tile(param_with_values, inf_val, treat_val)
+            else:
+                create_log_reduction_tile(param, inf_val, treat_val)
 
 def create_collapsible_section(title, content_func):
     """

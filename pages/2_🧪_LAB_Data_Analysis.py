@@ -100,15 +100,14 @@ def display_microbial_section(data_df, ranges_df, week_num, view_type='treated',
                 if view_type == 'comparison' and influent_data is not None:
                     influent_values.append("Not Tested")
         
-        # Display regular parameter tiles
-        st.markdown("#### Parameter Values")
+        # Always show parameter values
         create_parameter_tiles_grid(params, values, statuses)
         
-        # Display log reduction tiles if in comparison mode
+        # Display log reduction tiles if in comparison mode, with values shown
         if view_type == 'comparison' and influent_data is not None:
             st.markdown("#### Log Reduction Values")
             st.markdown("*1 Log = 90% removal, 2 Log = 99% removal, 3 Log = 99.9% removal, etc. ✅ = 6 Log or greater (99.9999%)*")
-            create_log_reduction_tiles_grid(params, influent_values, treated_values)
+            create_log_reduction_tiles_grid(params, influent_values, treated_values, cols=2, show_values=True)
 
 def display_category_section(category, data_df, treated_data, ranges_df, treated_ranges, week_num, view_type='treated', influent_data=None, influent_ranges=None):
     """Display a category section with radar chart and parameter tiles"""
@@ -141,44 +140,7 @@ def display_category_section(category, data_df, treated_data, ranges_df, treated
             )
             st.plotly_chart(fig, use_container_width=True)
             
-            # Add log reduction display below the radar chart if in comparison mode
-            if view_type == 'comparison' and influent_data is not None:
-                st.markdown("#### Log Reduction Values")
-                st.markdown("*1 Log = 90% removal, 2 Log = 99% removal, 3 Log = 99.9% removal, etc. ✅ = 6 Log or greater (99.9999%)*")
-                
-                # Collect data for log reduction calculation
-                week_col = f'Week {week_num}'
-                params_for_log = []
-                influent_vals = []
-                treated_vals = []
-                
-                for _, row in params_with_lookup.iterrows():
-                    als_lookup = row['ALS Lookup']
-                    param_name = row['Parameter']
-                    
-                    # Get treated value
-                    treated_param_data = treated_data[treated_data['ALS Lookup'] == als_lookup]
-                    treated_val = "Not Tested"
-                    if not treated_param_data.empty:
-                        treated_val = treated_param_data[week_col].iloc[0]
-                        if pd.isna(treated_val) or treated_val == 'N/R':
-                            treated_val = "Not Tested"
-                    
-                    # Get influent value
-                    influent_param_data = influent_data[influent_data['ALS Lookup'] == als_lookup]
-                    influent_val = "Not Tested"
-                    if not influent_param_data.empty:
-                        influent_val = influent_param_data[week_col].iloc[0]
-                        if pd.isna(influent_val) or influent_val == 'N/R':
-                            influent_val = "Not Tested"
-                    
-                    # Add to lists
-                    params_for_log.append(param_name)
-                    influent_vals.append(influent_val)
-                    treated_vals.append(treated_val)
-                
-                # Create log reduction tiles
-                create_log_reduction_tiles_grid(params_for_log, influent_vals, treated_vals)
+            # We'll move log reduction display to the expander below
         
         with st.expander(f"View {category} Parameters", expanded=False):
             week_col = f'Week {week_num}'
@@ -267,7 +229,7 @@ def display_category_section(category, data_df, treated_data, ranges_df, treated
             if view_type == 'comparison' and influent_data is not None:
                 st.markdown("#### Log Reduction Values")
                 st.markdown("*1 Log = 90% removal, 2 Log = 99% removal, 3 Log = 99.9% removal, etc. ✅ = 6 Log or greater (99.9999%)*")
-                create_log_reduction_tiles_grid(params, influent_values, treated_values)
+                create_log_reduction_tiles_grid(params, influent_values, treated_values, cols=2, show_values=True)
 
 def render_water_analysis(data_df, treated_data, ranges_df, treated_ranges, week_num, view_type, influent_data=None, influent_ranges=None):
     """Render water analysis content for a specific view"""
@@ -339,9 +301,14 @@ def main():
             "🚰 Treated Water",
             "📊 Comparison"
         ])
+        
+        # Track current tab for conditional sidebar content
+        if 'current_tab' not in st.session_state:
+            st.session_state['current_tab'] = 'treated'  # Default
 
         # Influent Water Tab
         with tab1:
+            st.session_state['current_tab'] = 'influent'
             st.header("Influent Water Analysis")
             st.markdown(f"""
             Analyzing raw water characteristics for Week {week_num}.  
@@ -358,6 +325,7 @@ def main():
 
         # Treated Water Tab
         with tab2:
+            st.session_state['current_tab'] = 'treated'
             st.header("Treated Water Analysis")
             st.markdown(f"""
             Showing treated water quality parameters for Week {week_num}.  
@@ -374,10 +342,14 @@ def main():
 
         # Comparison Tab
         with tab3:
+            st.session_state['current_tab'] = 'comparison'
             st.header("Water Quality Comparison")
             st.markdown(f"""
             Week {week_num} comparison between influent and treated water.  
             The smaller radar plot area for treated water demonstrates the effectiveness of the Brolga treatment process.
+            
+            **Log Reduction Values** show the order of magnitude reduction achieved by the treatment process:
+            *1 Log = 90% removal, 2 Log = 99% removal, 3 Log = 99.9% removal, etc.*
             """)
             render_water_analysis(
                 treated_data,
@@ -390,9 +362,24 @@ def main():
                 influent_ranges
             )
 
-        # Warning message
+        # Info messages
         st.sidebar.markdown('---')
         st.sidebar.warning('Note: Values below detection limits are shown as the detection limit value. Actual values may be lower.')
+        
+        # Add log reduction explanation in comparison mode tab
+        if st.session_state.get('current_tab') == 'comparison':
+            st.sidebar.markdown('---')
+            st.sidebar.info("""
+            ### Log Reduction Values
+            - **1 Log** = 90% removal
+            - **2 Log** = 99% removal
+            - **3 Log** = 99.9% removal
+            - **4 Log** = 99.99% removal
+            - **5 Log** = 99.999% removal
+            - **≥6 Log ✅** = 99.9999% or greater removal
+            
+            Negative values (⚠️) indicate an increase after treatment.
+            """)
 
     except Exception as e:
         st.error(f"Error loading data: {str(e)}")
