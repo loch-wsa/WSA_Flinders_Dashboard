@@ -201,7 +201,7 @@ def create_log_reduction_tile(param_name, influent_value, treated_value):
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <div>
                     <div style="font-size: 0.9em; color: white;">{param_name}</div>
-                    <div style="font-size: 1.2em; color: {color}; margin-top: 5px; font-weight: {('bold' if status == 'positive' or status == 'negative') else 'normal')}">
+                    <div style="font-size: 1.2em; color: {color}; margin-top: 5px; font-weight: {'bold' if status == 'positive' or status == 'negative' else 'normal'}">
                         {icon} {log_text}
                     </div>
                 </div>
